@@ -1,40 +1,45 @@
-import { ChevronLeft, HelpCircle, LogOut } from "lucide-react";
+import { ChevronLeft, HelpCircle, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const KVKHeader = () => {
   return (
-    <header className="bg-card border-b border-kvk-border shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Left side - Back button and Logo */}
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary">
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back
-            </Button>
-            <div className="flex items-center space-x-3">
-              <div className="text-2xl font-bold text-kvk-blue">KVK</div>
-              <span className="text-kvk-text-primary font-medium">My KVK</span>
+    <>
+      {/* Top gradient bar */}
+      <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-orange-500"></div>
+      
+      <header className="bg-card border-b border-kvk-border shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Left side - Back button and Logo */}
+            <div className="flex items-center space-x-6">
+              <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary hover:bg-transparent p-0">
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <div className="flex items-center space-x-3">
+                <div className="text-2xl font-bold text-kvk-blue">KVK</div>
+                <span className="text-kvk-text-primary font-medium">My KVK</span>
+              </div>
+            </div>
+
+            {/* Right side - Navigation */}
+            <div className="flex items-center space-x-6">
+              <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary hover:bg-transparent p-0">
+                <HelpCircle className="w-4 h-4 mr-2" />
+                FAQ
+              </Button>
+              <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary hover:bg-transparent p-0">
+                🌐 Nederlands
+              </Button>
+              <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary hover:bg-transparent p-0">
+                <User className="w-4 h-4 mr-2" />
+                Log out
+              </Button>
             </div>
           </div>
-
-          {/* Right side - Navigation */}
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary">
-              <HelpCircle className="w-4 h-4 mr-1" />
-              FAQ
-            </Button>
-            <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary">
-              🇳🇱 Nederlands
-            </Button>
-            <Button variant="ghost" size="sm" className="text-kvk-text-secondary hover:text-kvk-text-primary">
-              <LogOut className="w-4 h-4 mr-1" />
-              Log out
-            </Button>
-          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 

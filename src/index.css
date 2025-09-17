@@ -34,6 +34,7 @@ All colors MUST be HSL.
     --kvk-text-primary: 213 20% 20%;
     --kvk-text-secondary: 213 16% 55%;
     --kvk-border: 213 15% 90%;
+    --kvk-gradient: linear-gradient(90deg, #b83dba 0%, #f97316 100%);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
