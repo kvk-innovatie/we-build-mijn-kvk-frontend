@@ -39,6 +39,13 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        kvk: {
+          blue: "hsl(var(--kvk-blue))",
+          "blue-light": "hsl(var(--kvk-blue-light))",
+          "text-primary": "hsl(var(--kvk-text-primary))",
+          "text-secondary": "hsl(var(--kvk-text-secondary))",
+          border: "hsl(var(--kvk-border))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
