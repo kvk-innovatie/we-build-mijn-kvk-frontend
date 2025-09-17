@@ -34,16 +34,20 @@ const Index = () => {
             In these companies and organisations, you as a natural person (human being) have a direct position.
           </p>
 
-          {/* Company Details */}
-          <div className="mb-6">
-            <h3 className="text-xl font-semibold text-kvk-text-primary mb-2">Nieuwlaar</h3>
-            <div className="space-y-1 text-kvk-text-secondary mb-6">
-              <p>KVK number: 70123101</p>
-              <p>Position: Owner</p>
+          {/* Company Details - List Item Style */}
+          <div className="bg-card border border-kvk-border rounded-lg p-6 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-xl font-semibold text-kvk-text-primary mb-2">Nieuwlaar</h3>
+                <div className="space-y-1 text-kvk-text-secondary">
+                  <p>KVK number: 70123101</p>
+                  <p>Position: Owner</p>
+                </div>
+              </div>
             </div>
 
             {/* Company Information Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               <CompanyCard 
                 title="Company activities" 
                 content={companyActivities}
@@ -62,7 +66,7 @@ const Index = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-kvk-border">
               <ActionButton>Change details</ActionButton>
               <ActionButton>Deregister sole proprietorship (eenmanszaak)</ActionButton>
             </div>
