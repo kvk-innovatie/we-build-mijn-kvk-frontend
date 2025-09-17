@@ -67,6 +67,7 @@ const Index = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-kvk-border">
+              <ActionButton>Receive credentials</ActionButton>
               <ActionButton>Change details</ActionButton>
               <ActionButton>Deregister sole proprietorship (eenmanszaak)</ActionButton>
             </div>

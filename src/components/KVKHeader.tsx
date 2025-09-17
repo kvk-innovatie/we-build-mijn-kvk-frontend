@@ -16,9 +16,8 @@ const KVKHeader = () => {
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center">
                 <div className="text-2xl font-bold text-kvk-blue">KVK</div>
-                <span className="text-kvk-text-primary font-medium">My KVK</span>
               </div>
             </div>
 
