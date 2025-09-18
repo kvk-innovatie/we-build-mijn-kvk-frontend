@@ -63,15 +63,15 @@ const Index = () => {
 
   const companyActivities = (
     <div>
-      <p className="mb-1">SBI code: 62100</p>
-      <p>Computer programming activities</p>
+      <p className="mb-1">NACE code: C10.6.1</p>
+      <p>Fabricage van graanmolenproducten</p>
     </div>
   );
 
   const visitingAddress = (
     <div>
-      <p className="mb-1">Van Sijpesteijnkade 17 D</p>
-      <p>3521AH Utrecht</p>
+      <p className="mb-1">Sint Jacobslaan 300</p>
+      <p>3511AH Utrecht</p>
     </div>
   );
 
@@ -98,7 +98,7 @@ const Index = () => {
               <div>
                 <h3 className="text-xl font-semibold text-kvk-text-primary mb-2">Nieuwlaar</h3>
                 <div className="space-y-1 text-kvk-text-secondary">
-                  <p>KVK number: 70123101</p>
+                  <p>KVK number: 12345678</p>
                   <p>Position: Owner</p>
                 </div>
               </div>
@@ -118,71 +118,54 @@ const Index = () => {
               />
               <CompanyCard 
                 title="Phone number" 
-                content="(+31) 0645957523"
+                content="(+31) 0612345678"
                 clickable 
               />
             </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-kvk-border">
-              <ActionButton>Change details</ActionButton>
-              <ActionButton>Deregister sole proprietorship (eenmanszaak)</ActionButton>
-            </div>
-
-            {/* Wallet Connect Section */}
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <h4 className="text-lg font-semibold text-kvk-text-primary">Receive credentials</h4>
-                  {transactionSuccess && (
-                    <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200">
-                      <CheckCircle2 className="w-3 h-3 mr-1" />
-                      Data received
-                    </Badge>
-                  )}
-                </div>
-                {transactionSuccess && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={resetWalletButton}
-                    className="text-kvk-blue hover:text-kvk-blue"
-                  >
-                    <RotateCcw className="w-4 h-4 mr-1" />
-                    Reset Button
-                  </Button>
-                )}
-              </div>
-              
-              {/* Always show the wallet button, but use key to force re-render */}
-              <div className="relative">
+              {/* Wallet Connect Button styled as ActionButton */}
+              <div className="wallet-connect-wrapper">
                 <WalletConnectButton
                   key={buttonKey} // Force re-render when key changes
                   issuance
-                  label="Add data to your wallet"
+                  label="Receive credentials"
                   clientId="nlw_2fe35d507c90c42aaa355cba14c3c8ed"
                   helpBaseUrl="https://example.com/"
                   lang="en"
                   onSuccess={handleWalletSuccess}
                 />
-                
-                {/* Fallback button if the original gets replaced */}
                 {transactionSuccess && (
-                  <div className="mt-2">
-                    <Button
-                      onClick={resetWalletButton}
-                      className="bg-kvk-blue hover:bg-kvk-blue/90 text-white"
-                    >
-                      Add more data to your wallet
-                    </Button>
-                  </div>
+                  <Badge variant="secondary" className="ml-2 bg-green-100 text-green-800 border-green-200 inline-flex items-center">
+                    <CheckCircle2 className="w-3 h-3 mr-1" />
+                    Data received
+                  </Badge>
                 )}
               </div>
-              
-              {/* Display received wallet data */}
-              {walletData && (
-                <div className="mt-6">
-                  <h5 className="text-md font-semibold text-kvk-text-primary mb-4">Received Wallet Data</h5>
+              <ActionButton>Change details</ActionButton>
+              <ActionButton>Deregister sole proprietorship (eenmanszaak)</ActionButton>
+            </div>
+
+            {/* Reset Button Section - only shown when transaction is successful */}
+            {transactionSuccess && (
+              <div className="mt-4 flex justify-start">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={resetWalletButton}
+                  className="text-kvk-blue hover:text-kvk-blue"
+                >
+                  <RotateCcw className="w-4 h-4 mr-1" />
+                  Reset Button
+                </Button>
+              </div>
+            )}
+
+            {/* Wallet Data Display Section */}
+            {walletData && (
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <h5 className="text-md font-semibold text-kvk-text-primary mb-4">Received Wallet Data</h5>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Personal Information */}
                     <Card>
@@ -370,9 +353,8 @@ const Index = () => {
                       </Card>
                     )}
                   </div>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       </main>

@@ -116,3 +116,40 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Wallet Connect Button Styling - Match ActionButton appearance */
+.wallet-connect-wrapper nl-wallet-button::part(button) {
+  background: transparent;
+  border: 0;
+  color: hsl(var(--kvk-blue));
+  font-weight: normal;
+  text-align: left;
+  padding: 0;
+  height: auto;
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+}
+
+.wallet-connect-wrapper nl-wallet-button::part(button):hover {
+  background: hsl(var(--kvk-blue-light) / 0.2);
+  color: hsl(var(--kvk-blue));
+}
+
+.wallet-connect-wrapper nl-wallet-button::part(button-span) {
+  color: hsl(var(--kvk-blue));
+  font-weight: normal;
+}
+
+.wallet-connect-wrapper nl-wallet-button::part(button-span):hover {
+  color: hsl(var(--kvk-blue));
+}
+
+/* Add chevron icon before the button text */
+.wallet-connect-wrapper nl-wallet-button::part(button-span)::before {
+  content: "›";
+  display: inline-block;
+  margin-right: 0.25rem;
+  font-size: 1rem;
+  font-weight: normal;
+}
