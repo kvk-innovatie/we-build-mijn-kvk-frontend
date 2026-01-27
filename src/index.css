@@ -118,11 +118,27 @@ All colors MUST be HSL.
 }
 
 /* Wallet Connect Button Styling - Match ActionButton appearance */
+.wallet-connect-wrapper {
+  --wallet-button-color: hsl(var(--kvk-blue));
+  --wallet-button-hover: hsl(var(--kvk-blue-light) / 0.2);
+}
+
+.wallet-connect-wrapper.business {
+  --wallet-button-color: #7c3aed;
+  --wallet-button-hover: rgba(124, 58, 237, 0.15);
+}
+
+.wallet-connect-wrapper.natural {
+  --wallet-button-color: hsl(var(--kvk-blue));
+  --wallet-button-hover: hsl(var(--kvk-blue-light) / 0.2);
+}
+
 .wallet-connect-wrapper nl-wallet-button::part(button) {
   background: transparent;
   border: 0;
-  color: hsl(var(--kvk-blue));
-  font-weight: normal;
+  color: #1e3a5f;
+  font-size: 1.125rem;
+  font-weight: 600;
   text-align: left;
   padding: 0;
   height: auto;
@@ -132,24 +148,34 @@ All colors MUST be HSL.
 }
 
 .wallet-connect-wrapper nl-wallet-button::part(button):hover {
-  background: hsl(var(--kvk-blue-light) / 0.2);
-  color: hsl(var(--kvk-blue));
+  background: var(--wallet-button-hover, hsl(var(--kvk-blue-light) / 0.2));
+  color: var(--wallet-button-color, hsl(var(--kvk-blue)));
 }
 
 .wallet-connect-wrapper nl-wallet-button::part(button-span) {
-  color: hsl(var(--kvk-blue));
+  color: var(--wallet-button-color, hsl(var(--kvk-blue)));
   font-weight: normal;
 }
 
 .wallet-connect-wrapper nl-wallet-button::part(button-span):hover {
-  color: hsl(var(--kvk-blue));
+  color: var(--wallet-button-color, hsl(var(--kvk-blue)));
 }
 
 /* Add chevron icon before the button text */
-.wallet-connect-wrapper nl-wallet-button::part(button-span)::before {
-  content: "›";
-  display: inline-block;
-  margin-right: 0.25rem;
-  font-size: 1rem;
-  font-weight: normal;
+
+
+.credential-dialog {
+  inset: 0 !important;
+  margin: auto;
+  transform: none !important;
+  width: calc(100% - 2rem);
+  max-width: 52rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .credential-dialog {
+    width: auto;
+  }
 }

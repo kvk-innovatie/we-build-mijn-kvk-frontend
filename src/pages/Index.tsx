@@ -2,11 +2,21 @@ import KVKHeader from "@/components/KVKHeader";
 import CompanyCard from "@/components/CompanyCard";
 import ActionButton from "@/components/ActionButton";
 import WalletConnectButton from "wallet-connect-button-react";
+import WalletSelectDialog from "@/components/WalletSelectDialog";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, User, Building2, Phone, Mail, Globe, Calendar, MapPin, RotateCcw } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface WalletAttributes {
   family_name?: string;
@@ -39,19 +49,27 @@ interface WalletAttributes {
   postal_code?: string;
   locality?: string;
   country?: string;
-  [key: string]: any;
 }
 
 const Index = () => {
   const [walletData, setWalletData] = useState<WalletAttributes | null>(null);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [buttonKey, setButtonKey] = useState(0); // Key to force re-render of button
+  const [credentialDialogOpen, setCredentialDialogOpen] = useState(false);
+  const [porDialogOpen, setPorDialogOpen] = useState(false); // Power of Representation wallet select dialog
+  const [selectedWalletType, setSelectedWalletType] = useState<"natural" | "business">("natural");
+  const walletTypeOptions = [
+    { value: "natural", label: "Natural person wallet", accent: "bg-blue-600", muted: "text-blue-600" },
+    { value: "business", label: "Business wallet", accent: "bg-purple-600", muted: "text-purple-600" },
+  ] as const;
 
   const handleWalletSuccess = (attributes: WalletAttributes | undefined) => {
     console.log('Wallet transaction successful:', attributes);
     if (attributes) {
       setWalletData(attributes);
       setTransactionSuccess(true);
+      setCredentialDialogOpen(false);
+      setPorDialogOpen(false);
     }
   };
 
@@ -63,8 +81,8 @@ const Index = () => {
 
   const companyActivities = (
     <div>
-      <p className="mb-1">NACE code: C10.6.1</p>
-      <p>Fabricage van graanmolenproducten</p>
+      <p className="mb-1">NACE code: 47.78</p>
+      <p>Retail sale of new goods in specialised stores</p>
     </div>
   );
 
@@ -96,9 +114,9 @@ const Index = () => {
           <div className="bg-card border border-kvk-border rounded-lg p-6 shadow-sm">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-xl font-semibold text-kvk-text-primary mb-2">Nieuwlaar</h3>
+                <h3 className="text-xl font-semibold text-kvk-text-primary mb-2">Witbaard Feestartikelen</h3>
                 <div className="space-y-1 text-kvk-text-secondary">
-                  <p>KVK number: 12345678</p>
+                  <p>KVK number: 90001356</p>
                   <p>Position: Owner</p>
                 </div>
               </div>
@@ -125,24 +143,101 @@ const Index = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-kvk-border">
-              {/* Wallet Connect Button styled as ActionButton */}
-              <div className="wallet-connect-wrapper">
-                <WalletConnectButton
-                  key={buttonKey} // Force re-render when key changes
-                  issuance
-                  label="Receive credentials"
-                  clientId="nlw_2fe35d507c90c42aaa355cba14c3c8ed"
-                  helpBaseUrl="https://example.com/"
-                  lang="en"
-                  onSuccess={handleWalletSuccess}
-                />
-                {transactionSuccess && (
-                  <Badge variant="secondary" className="ml-2 bg-green-100 text-green-800 border-green-200 inline-flex items-center">
-                    <CheckCircle2 className="w-3 h-3 mr-1" />
-                    Data received
-                  </Badge>
-                )}
-              </div>
+              <Dialog open={credentialDialogOpen} onOpenChange={setCredentialDialogOpen}>
+                <DialogTrigger asChild>
+                  <ActionButton>Receive credentials</ActionButton>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl credential-dialog">
+                  <DialogHeader>
+                    <DialogTitle>Select a credential to receive</DialogTitle>
+                    <DialogDescription>
+                      Choose the credential type you want to issue to your wallet.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div className="flex justify-center">
+                      <div className="inline-flex rounded-full bg-muted/60 p-1">
+                        {walletTypeOptions.map(option => {
+                          const isActive = selectedWalletType === option.value;
+                          return (
+                            <button
+                              type="button"
+                              key={option.value}
+                              onClick={() => setSelectedWalletType(option.value)}
+                              className={cn(
+                                "px-4 py-2 rounded-full text-sm font-semibold transition-colors",
+                                isActive
+                                  ? `${option.accent} text-white shadow`
+                                  : "text-muted-foreground hover:text-foreground"
+                              )}
+                            >
+                              {option.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {selectedWalletType === "natural" && (
+                      <section className="border border-blue-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-blue-50 to-white shadow-sm">
+                        <Badge
+                          variant="outline"
+                          className="w-fit border-blue-200 bg-blue-100/80 text-blue-900"
+                        >
+                          Natural person wallet credential
+                        </Badge>
+                        <div>
+                          <h3 className="text-lg font-semibold text-blue-900">Power of Representation</h3>
+                          <p className="text-sm text-blue-700">
+                            Prove that you are authorised to represent Witbaard Feestartikelen as an individual.
+                          </p>
+                        </div>
+                        <Button 
+                          onClick={() => setPorDialogOpen(true)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          Receive Power of Representation
+                        </Button>
+                        <WalletSelectDialog
+                          open={porDialogOpen}
+                          onOpenChange={setPorDialogOpen}
+                          buttonKey={buttonKey}
+                          clientId="nlw_2fe35d507c90c42aaa355cba14c3c8ed"
+                          onSuccess={handleWalletSuccess}
+                        />
+                      </section>
+                    )}
+
+                    {selectedWalletType === "business" && (
+                      <section className="border border-purple-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-purple-50 to-white shadow-sm">
+                        <Badge
+                          variant="outline"
+                          className="w-fit border-purple-200 bg-purple-100/80 text-purple-900"
+                        >
+                          Business wallet credential
+                        </Badge>
+                        <div>
+                          <h3 className="text-lg font-semibold text-purple-900">European Company Certificate (EUCC)</h3>
+                          <p className="text-sm text-purple-700">
+                            Issue an EUCC credential to a business wallet to share verified company information across Europe.
+                          </p>
+                        </div>
+                        <div className="wallet-connect-wrapper business">
+                        <WalletConnectButton
+                          issuance
+                          label="Add data to your business wallet"
+                          clientId="nlw_a9d4896760690527ecd21759910a5fd6"
+                          business
+                          helpBaseUrl="https://example.com/"
+                          lang="en"
+                          onSuccess={()=>{}}
+                        />
+                        </div>
+                      </section>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
               <ActionButton>Change details</ActionButton>
               <ActionButton>Deregister sole proprietorship (eenmanszaak)</ActionButton>
             </div>
