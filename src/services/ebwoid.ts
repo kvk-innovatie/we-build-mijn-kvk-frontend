@@ -15,6 +15,7 @@ export interface IssueRequest {
 export interface IssueResponse {
   issuanceId: string;
   status: string;
+  credentialOffer?: string | Record<string, unknown>;
 }
 
 export interface StatusResponse {
@@ -40,16 +41,11 @@ let mockStatus: StatusResponse["status"] = "issuing";
 
 async function mockIssueCredential(): Promise<IssueResponse> {
   await delay(500);
-  mockStatus = "issuing";
-
-  // Simulate the backend progressing through statuses
-  setTimeout(() => { mockStatus = "delivering"; }, 2000);
-  setTimeout(() => { mockStatus = "receiving"; }, 3000);
-  setTimeout(() => { mockStatus = "polling"; }, 4000);
-  setTimeout(() => { mockStatus = "accepting"; }, 6000);
-  setTimeout(() => { mockStatus = "accepted"; }, 7000);
-
-  return { issuanceId: "mock-" + Date.now(), status: "issuing" };
+  return {
+    issuanceId: "mock-" + Date.now(),
+    status: "offer_created",
+    credentialOffer: "openid-credential-offer://?credential_offer_uri=https://demo-api.igrant.io/mock-offer",
+  };
 }
 
 async function mockGetIssuanceStatus(): Promise<StatusResponse> {

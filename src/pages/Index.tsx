@@ -7,7 +7,7 @@ import { issueCredential, getIssuanceStatus } from "@/services/ebwoid";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, User, Building2, Phone, Mail, Globe, Calendar, MapPin, RotateCcw, ArrowLeft, Wallet, Loader2, AlertCircle } from "lucide-react";
+import { CheckCircle2, User, Building2, Phone, Mail, Globe, Calendar, MapPin, RotateCcw, ArrowLeft, Wallet, Loader2, AlertCircle, Copy, ClipboardCheck } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -71,6 +71,8 @@ const Index = () => {
   >("idle");
   const [ebwoidError, setEbwoidError] = useState<string | null>(null);
   const [ebwoidIssuanceId, setEbwoidIssuanceId] = useState<string | null>(null);
+  const [credentialOffer, setCredentialOffer] = useState<string | null>(null);
+  const [offerCopied, setOfferCopied] = useState(false);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const stopPolling = useCallback(() => {
@@ -88,6 +90,8 @@ const Index = () => {
   const handleIGrantClick = async () => {
     setEbwoidIssuanceStatus("issuing");
     setEbwoidError(null);
+    setCredentialOffer(null);
+    setOfferCopied(false);
 
     try {
       const result = await issueCredential({
@@ -99,27 +103,36 @@ const Index = () => {
         },
       });
 
-      setEbwoidIssuanceId(result.issuanceId);
-      setEbwoidIssuanceStatus("polling");
+      if (result.credentialOffer) {
+        // Synchronous offer flow — display the offer for copy-paste
+        const offerText = typeof result.credentialOffer === "string"
+          ? result.credentialOffer
+          : JSON.stringify(result.credentialOffer);
+        setCredentialOffer(offerText);
+        setEbwoidIssuanceStatus("success");
+      } else {
+        // Legacy background-task flow (fallback for other providers)
+        setEbwoidIssuanceId(result.issuanceId);
+        setEbwoidIssuanceStatus("polling");
 
-      // Start polling for status
-      pollingRef.current = setInterval(async () => {
-        try {
-          const status = await getIssuanceStatus(result.issuanceId);
-          if (status.status === "accepted") {
-            stopPolling();
-            setEbwoidIssuanceStatus("success");
-          } else if (status.status === "failed") {
+        pollingRef.current = setInterval(async () => {
+          try {
+            const status = await getIssuanceStatus(result.issuanceId);
+            if (status.status === "accepted") {
+              stopPolling();
+              setEbwoidIssuanceStatus("success");
+            } else if (status.status === "failed") {
+              stopPolling();
+              setEbwoidIssuanceStatus("error");
+              setEbwoidError(status.error || "Issuance failed");
+            }
+          } catch (err) {
             stopPolling();
             setEbwoidIssuanceStatus("error");
-            setEbwoidError(status.error || "Issuance failed");
+            setEbwoidError(err instanceof Error ? err.message : "Polling failed");
           }
-        } catch (err) {
-          stopPolling();
-          setEbwoidIssuanceStatus("error");
-          setEbwoidError(err instanceof Error ? err.message : "Polling failed");
-        }
-      }, 3000);
+        }, 3000);
+      }
     } catch (err) {
       setEbwoidIssuanceStatus("error");
       setEbwoidError(err instanceof Error ? err.message : "Failed to start issuance");
@@ -135,6 +148,8 @@ const Index = () => {
       setEbwoidIssuanceStatus("idle");
       setEbwoidError(null);
       setEbwoidIssuanceId(null);
+      setCredentialOffer(null);
+      setOfferCopied(false);
     }
   };
 
@@ -438,17 +453,45 @@ const Index = () => {
                         </div>
                       )}
 
-                      {ebwoidIssuanceStatus === "success" && (
-                        <div className="flex flex-col items-center justify-center py-12 space-y-4">
-                          <CheckCircle2 className="h-12 w-12 text-green-600" />
+                      {ebwoidIssuanceStatus === "success" && credentialOffer && (
+                        <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                          <CheckCircle2 className="h-10 w-10 text-green-600" />
                           <p className="text-lg font-semibold text-green-900">
-                            EBWOID credential successfully issued!
+                            Credential offer created!
                           </p>
+                          <p className="text-sm text-gray-600 text-center max-w-md">
+                            Copy the credential offer below and paste it in your organisation wallet to receive the EBWOID credential.
+                          </p>
+                          <div className="w-full max-w-lg">
+                            <div className="relative">
+                              <textarea
+                                readOnly
+                                value={credentialOffer}
+                                className="w-full h-24 p-3 pr-20 border border-gray-300 rounded-lg text-xs font-mono bg-gray-50 resize-none"
+                              />
+                              <Button
+                                onClick={() => {
+                                  navigator.clipboard.writeText(credentialOffer);
+                                  setOfferCopied(true);
+                                  setTimeout(() => setOfferCopied(false), 2000);
+                                }}
+                                variant="outline"
+                                size="sm"
+                                className="absolute top-2 right-2"
+                              >
+                                {offerCopied ? (
+                                  <><ClipboardCheck className="w-3 h-3 mr-1" /> Copied</>
+                                ) : (
+                                  <><Copy className="w-3 h-3 mr-1" /> Copy</>
+                                )}
+                              </Button>
+                            </div>
+                          </div>
                           <Button
                             onClick={() => handleDialogClose(false)}
                             className="bg-purple-600 hover:bg-purple-700 text-white"
                           >
-                            Close
+                            Done
                           </Button>
                         </div>
                       )}
