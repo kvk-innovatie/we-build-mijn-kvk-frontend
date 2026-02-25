@@ -12,7 +12,7 @@ const TaxRegistrationPage = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-[#154273]">Belastingdienst</h1>
-            <Link to="/issue">
+            <Link to="/issuers">
               <Button variant="outline" className="border-[#154273] text-[#154273] hover:bg-[#154273] hover:text-white">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to overview

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import KVKHeader from "@/components/KVKHeader";
 import CompanyCard from "@/components/CompanyCard";
 import ActionButton from "@/components/ActionButton";
@@ -53,7 +54,7 @@ interface WalletAttributes {
 
 type DialogStep = "select-credential" | "select-wallet-natural" | "select-wallet-business" | "select-wallet-ebwoid";
 
-const Index = () => {
+const KVKIssuerPage = () => {
   const [walletData, setWalletData] = useState<WalletAttributes | null>(null);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [buttonKey, setButtonKey] = useState(0); // Key to force re-render of button
@@ -190,8 +191,16 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <KVKHeader />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back navigation */}
+        <div className="mb-6">
+          <Link to="/issuers" className="inline-flex items-center text-kvk-blue hover:underline">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to issuers
+          </Link>
+        </div>
+
         {/* Page Title */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-kvk-text-primary">My KVK</h1>
@@ -218,20 +227,20 @@ const Index = () => {
 
             {/* Company Information Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              <CompanyCard 
-                title="Company activities" 
+              <CompanyCard
+                title="Company activities"
                 content={companyActivities}
-                clickable 
+                clickable
               />
-              <CompanyCard 
-                title="Visiting address" 
+              <CompanyCard
+                title="Visiting address"
                 content={visitingAddress}
-                clickable 
+                clickable
               />
-              <CompanyCard 
-                title="Phone number" 
+              <CompanyCard
+                title="Phone number"
                 content="(+31) 0612345678"
-                clickable 
+                clickable
               />
             </div>
 
@@ -259,8 +268,8 @@ const Index = () => {
                       )}
                       <div>
                         <DialogTitle>
-                          {dialogStep === "select-credential" 
-                            ? "Select a credential to receive" 
+                          {dialogStep === "select-credential"
+                            ? "Select a credential to receive"
                             : "Choose your wallet"}
                         </DialogTitle>
                         <DialogDescription>
@@ -316,7 +325,7 @@ const Index = () => {
                               Prove that you are authorised to represent Witbaard Feestartikelen as an individual.
                             </p>
                           </div>
-                          <Button 
+                          <Button
                             onClick={() => setDialogStep("select-wallet-natural")}
                             className="bg-blue-600 hover:bg-blue-700 text-white"
                           >
@@ -805,4 +814,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default KVKIssuerPage;

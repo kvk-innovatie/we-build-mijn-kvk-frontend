@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
+import KVKHeader from "@/components/KVKHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, CreditCard } from "lucide-react";
+import { FileText, CreditCard, Building2, ArrowLeft } from "lucide-react";
 
 const issuers = [
+  {
+    title: "KVK",
+    description: "Issue company credentials from the Chamber of Commerce (EBWOID, EUCC, Power of Representation)",
+    icon: Building2,
+    path: "/issuers/kvk",
+    color: "from-purple-500 to-orange-500",
+    available: true,
+  },
   {
     title: "Bank IBAN",
     description: "Obtain your bank account IBAN number for your business wallet",
     icon: CreditCard,
-    path: "/issue/bank",
+    path: "/issuers/bank",
     color: "from-green-500 to-yellow-400",
     available: true,
   },
@@ -15,32 +24,38 @@ const issuers = [
     title: "Tax Registration",
     description: "Get your VAT number from the Belastingdienst",
     icon: FileText,
-    path: "/issue/tax-registration",
+    path: "/issuers/tax-registration",
     color: "from-blue-800 to-blue-600",
     available: true,
   },
 ];
 
-const IssueOverview = () => {
+const IssuersOverview = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-background">
+      <KVKHeader />
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Link to="/" className="inline-flex items-center text-kvk-blue hover:underline mb-6 block">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to home
+        </Link>
+
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-kvk-text-primary mb-4">
             Credential Issuance Portal
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Add verified credentials to your digital wallet from trusted issuers. 
+          <p className="text-xl text-kvk-text-secondary max-w-2xl mx-auto">
+            Add verified credentials to your digital wallet from trusted issuers.
             Select a credential type below to get started.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {issuers.map((issuer) => {
             const IconComponent = issuer.icon;
             return (
               <Link key={issuer.path} to={issuer.path} className="block">
-                <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer h-full">
                   <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${issuer.color}`} />
                   <CardHeader className="pb-4">
                     <div className="flex items-center gap-4">
@@ -62,7 +77,7 @@ const IssueOverview = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-kvk-text-secondary">
             All credentials are issued securely and stored in your digital wallet.
             <br />
             Your data remains under your control at all times.
@@ -73,4 +88,4 @@ const IssueOverview = () => {
   );
 };
 
-export default IssueOverview;
+export default IssuersOverview;

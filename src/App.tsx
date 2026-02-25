@@ -2,12 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFound";
-import IssueOverview from "./pages/issue/page";
-import BankIssuancePage from "./pages/issue/bank/page";
-import TaxRegistrationPage from "./pages/issue/tax-registration/page";
+import IssuersOverview from "./pages/issuers/page";
+import KVKIssuerPage from "./pages/issuers/kvk/page";
+import BankIssuancePage from "./pages/issuers/bank/page";
+import TaxRegistrationPage from "./pages/issuers/tax-registration/page";
+import KYCKYSPage from "./pages/use-cases/kyc-kys/page";
+import CreateBranchPage from "./pages/use-cases/create-branch/page";
 
 const queryClient = new QueryClient();
 
@@ -18,10 +21,16 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/issue" element={<IssueOverview />} />
-          <Route path="/issue/bank" element={<BankIssuancePage />} />
-          <Route path="/issue/tax-registration" element={<TaxRegistrationPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/issuers" element={<IssuersOverview />} />
+          <Route path="/issuers/kvk" element={<KVKIssuerPage />} />
+          <Route path="/issuers/bank" element={<BankIssuancePage />} />
+          <Route path="/issuers/tax-registration" element={<TaxRegistrationPage />} />
+          <Route path="/use-cases/kyc-kys" element={<KYCKYSPage />} />
+          <Route path="/use-cases/create-branch" element={<CreateBranchPage />} />
+          {/* Redirects for old /issue paths */}
+          <Route path="/issue" element={<Navigate to="/issuers" replace />} />
+          <Route path="/issue/*" element={<Navigate to="/issuers" replace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
