@@ -17,7 +17,7 @@ const BankIssuancePage = () => {
               </div>
               <h1 className="text-2xl font-bold text-white">ABN AMRO</h1>
             </div>
-            <Link to="/issue">
+            <Link to="/issuers">
               <Button 
                 variant="ghost" 
                 className="text-white/90 hover:text-white hover:bg-white/10 border border-white/20 hover:border-white/40 transition-all"
