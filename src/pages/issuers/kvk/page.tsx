@@ -52,7 +52,7 @@ interface WalletAttributes {
   country?: string;
 }
 
-type DialogStep = "select-credential" | "select-wallet-natural" | "select-wallet-business" | "select-wallet-ebwoid";
+type DialogStep = "select-credential" | "select-wallet-natural" | "select-wallet-business" | "select-wallet-ebwoid" | "select-wallet-ubo";
 
 const KVKIssuerPage = () => {
   const [walletData, setWalletData] = useState<WalletAttributes | null>(null);
@@ -279,6 +279,8 @@ const KVKIssuerPage = () => {
                             ? "Select the wallet you want to use to receive your Power of Representation."
                             : dialogStep === "select-wallet-ebwoid"
                             ? "Select the wallet you want to use to receive your EBWOID credential."
+                            : dialogStep === "select-wallet-ubo"
+                            ? "Select the wallet you want to use to receive your UBO credential."
                             : "Select the wallet you want to use to receive your EUCC credential."}
                         </DialogDescription>
                       </div>
@@ -375,6 +377,27 @@ const KVKIssuerPage = () => {
                               className="bg-purple-600 hover:bg-purple-700 text-white"
                             >
                               Receive EUCC
+                            </Button>
+                          </section>
+
+                          <section className="border border-purple-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-purple-50 to-white shadow-sm">
+                            <Badge
+                              variant="outline"
+                              className="w-fit border-purple-200 bg-purple-100/80 text-purple-900"
+                            >
+                              Business wallet credential
+                            </Badge>
+                            <div>
+                              <h3 className="text-lg font-semibold text-purple-900">Ultimate Beneficial Owner (UBO)</h3>
+                              <p className="text-sm text-purple-700">
+                                Issue a UBO credential to a business wallet to share verified beneficial ownership information.
+                              </p>
+                            </div>
+                            <Button
+                              onClick={() => setDialogStep("select-wallet-ubo")}
+                              className="bg-purple-600 hover:bg-purple-700 text-white"
+                            >
+                              Receive UBO
                             </Button>
                           </section>
                         </div>
@@ -552,6 +575,69 @@ const KVKIssuerPage = () => {
                                 issuance
                                 label="NL-wallet"
                                 clientId="nlw_a9d4896760690527ecd21759910a5fd6"
+                                business
+                                helpBaseUrl="https://example.com/"
+                                lang="en"
+                                onSuccess={handleWalletSuccess}
+                              />
+                            </div>
+                          </div>
+                        </section>
+
+                        {/* iGrant.io option - greyed out */}
+                        <section className="border border-gray-200 rounded-2xl p-5 bg-gradient-to-br from-gray-100 to-gray-50 shadow-sm opacity-50 cursor-not-allowed">
+                          <div className="flex items-center gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shadow-sm flex-shrink-0 grayscale">
+                              <img src="/igrantio_logo.jpg" alt="iGrant.io" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-lg font-semibold text-gray-400">
+                                iGrant.io
+                              </h3>
+                              <p className="text-sm text-gray-400">Coming soon</p>
+                            </div>
+                          </div>
+                        </section>
+
+                        {/* Procivis option - greyed out */}
+                        <section className="border border-gray-200 rounded-2xl p-5 bg-gradient-to-br from-gray-100 to-gray-50 shadow-sm opacity-50 cursor-not-allowed">
+                          <div className="flex items-center gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shadow-sm flex-shrink-0 grayscale">
+                              <img src="/procivis.png" alt="Procivis" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-lg font-semibold text-gray-400">
+                                Procivis
+                              </h3>
+                              <p className="text-sm text-gray-400">Coming soon</p>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 2d: Select wallet for UBO */}
+                  {dialogStep === "select-wallet-ubo" && (
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* NL-wallet option for UBO */}
+                        <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
+                          <div className="flex items-center gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shadow-sm flex-shrink-0">
+                              {/* Netherlands Flag */}
+                              <svg viewBox="0 0 9 6" className="w-full h-full">
+                                <rect width="9" height="2" fill="#AE1C28"/>
+                                <rect y="2" width="9" height="2" fill="#FFFFFF"/>
+                                <rect y="4" width="9" height="2" fill="#21468B"/>
+                              </svg>
+                            </div>
+                            <div className="wallet-connect-wrapper business flex-1">
+                              <WalletConnectButton
+                                key={`ubo-${buttonKey}`}
+                                issuance
+                                label="NL-wallet"
+                                clientId="nlw_ea46c7f31bac0a0d10f204f55c921445"
                                 business
                                 helpBaseUrl="https://example.com/"
                                 lang="en"
