@@ -6,23 +6,23 @@ import { FileText, CreditCard, Building2, ArrowLeft } from "lucide-react";
 const issuers = [
   {
     title: "KVK",
-    description: "Issue company credentials from the Chamber of Commerce (EBWOID, EUCC, Power of Representation)",
+    description: "Issue credentials from the Netherlands Chamber of Commerce",
     icon: Building2,
     path: "/issuers/kvk",
     color: "from-purple-500 to-orange-500",
     available: true,
   },
   {
-    title: "Bank IBAN",
-    description: "Obtain your bank account IBAN number for your business wallet",
+    title: "Bank",
+    description: "Obtain your bank account IBAN number",
     icon: CreditCard,
     path: "/issuers/bank",
     color: "from-green-500 to-yellow-400",
     available: true,
   },
   {
-    title: "Tax Registration",
-    description: "Get your VAT number from the Belastingdienst",
+    title: "Tax Authority",
+    description: "Get your VAT number",
     icon: FileText,
     path: "/issuers/tax-registration",
     color: "from-blue-800 to-blue-600",
