@@ -11,6 +11,9 @@ import BankIssuancePage from "./pages/issuers/bank/page";
 import TaxRegistrationPage from "./pages/issuers/tax-registration/page";
 import KYCKYSPage from "./pages/use-cases/kyc-kys/page";
 import CreateBranchPage from "./pages/use-cases/create-branch/page";
+import KVKVerifierPage from "./pages/verifiers/kvk/page";
+import InfogreffeVerifierPage from "./pages/verifiers/infogreffe/page";
+import BelastingdienstVerifierPage from "./pages/verifiers/belastingdienst/page";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,9 @@ const App = () => (
           <Route path="/issuers/tax-registration" element={<TaxRegistrationPage />} />
           <Route path="/use-cases/kyc-kys" element={<KYCKYSPage />} />
           <Route path="/use-cases/create-branch" element={<CreateBranchPage />} />
+          <Route path="/verifiers/kvk" element={<KVKVerifierPage />} />
+          <Route path="/verifiers/infogreffe" element={<InfogreffeVerifierPage />} />
+          <Route path="/verifiers/belastingdienst" element={<BelastingdienstVerifierPage />} />
           {/* Redirects for old /issue paths */}
           <Route path="/issue" element={<Navigate to="/issuers" replace />} />
           <Route path="/issue/*" element={<Navigate to="/issuers" replace />} />

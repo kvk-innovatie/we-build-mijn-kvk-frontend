@@ -161,6 +161,37 @@ All colors MUST be HSL.
   color: var(--wallet-button-color, hsl(var(--kvk-blue)));
 }
 
+/* Infogreffe-styled wallet connect button */
+.wallet-connect-wrapper.infogreffe nl-wallet-button::part(button) {
+  background: #1a2b57;
+  border: 0;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.375rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.wallet-connect-wrapper.infogreffe nl-wallet-button::part(button):hover {
+  background: rgba(26, 43, 87, 0.9);
+  color: #ffffff;
+}
+
+.wallet-connect-wrapper.infogreffe nl-wallet-button::part(button-span) {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.wallet-connect-wrapper.infogreffe nl-wallet-button::part(button-span):hover {
+  color: #ffffff;
+}
+
 /* Add chevron icon before the button text */
 
 

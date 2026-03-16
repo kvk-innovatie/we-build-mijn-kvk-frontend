@@ -1,4 +1,6 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+// In dev, use empty string so requests go through the Vite proxy (/api/...)
+// In production, use the configured base URL
+const API_BASE = import.meta.env.DEV ? "" : (import.meta.env.VITE_API_BASE_URL || "");
 const MOCK_API = import.meta.env.VITE_MOCK_API === "true";
 
 export type WalletProvider = "igrant" | "procivis";

@@ -52,6 +52,30 @@ const issuers = [
 
 const relyingParties = [
   {
+    title: "KVK",
+    description: "Verify business credentials issued by the Netherlands Chamber of Commerce",
+    icon: Building2,
+    path: "/verifiers/kvk",
+    color: "from-purple-500 to-orange-500",
+    credentials: ["EBWOID"],
+  },
+  {
+    title: "Infogreffe",
+    description: "French commercial court registry — create a company branch using verified credentials",
+    icon: Building2,
+    path: "/verifiers/infogreffe",
+    color: "from-[#1a2b57] to-[#2d5ea0]",
+    credentials: ["EUCC"],
+  },
+  {
+    title: "Belastingdienst",
+    description: "Dutch Tax Authority — file your VAT return using verified business credentials",
+    icon: FileText,
+    path: "/verifiers/belastingdienst",
+    color: "from-[#1a3a5c] to-[#2d5ea0]",
+    credentials: ["EBWOID"],
+  },
+  {
     title: "FictiveCo",
     description: "Coming soon",
     icon: Store,
@@ -158,26 +182,57 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relyingParties.map((rp) => {
               const IconComponent = rp.icon;
+              if (rp.comingSoon) {
+                return (
+                  <Card key={rp.title} className="relative overflow-hidden transition-all duration-300 h-full opacity-75">
+                    <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${rp.color}`} />
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`p-3 rounded-xl bg-gradient-to-br ${rp.color} text-white shadow-lg`}>
+                          <IconComponent className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl">{rp.title}</CardTitle>
+                          <Badge variant="secondary" className="mt-1">Coming soon</Badge>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-base">
+                        {rp.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                );
+              }
               return (
-                <Card key={rp.title} className="relative overflow-hidden transition-all duration-300 h-full opacity-75">
-                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${rp.color}`} />
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${rp.color} text-white shadow-lg`}>
-                        <IconComponent className="w-6 h-6" />
-                      </div>
-                      <div>
+                <Link key={rp.title} to={rp.path!} className="block">
+                  <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer h-full">
+                    <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${rp.color}`} />
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`p-3 rounded-xl bg-gradient-to-br ${rp.color} text-white shadow-lg`}>
+                          <IconComponent className="w-6 h-6" />
+                        </div>
                         <CardTitle className="text-xl">{rp.title}</CardTitle>
-                        <Badge variant="secondary" className="mt-1">Coming soon</Badge>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base">
-                      {rp.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-base mb-3">
+                        {rp.description}
+                      </CardDescription>
+                      {rp.credentials && (
+                        <ul className="flex flex-wrap gap-2">
+                          {rp.credentials.map((cred) => (
+                            <li key={cred}>
+                              <Badge variant="secondary">{cred}</Badge>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
               );
             })}
           </div>
