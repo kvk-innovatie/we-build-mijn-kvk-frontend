@@ -83,7 +83,7 @@ const CredentialIssuanceDialog = ({
         credentialType,
         subject: {
           identifier: "NLNHR.90001356",
-          legalName: "Witbaard Feestartikelen",
+          legalName: "Krusty Krab",
         },
       });
 
@@ -411,7 +411,7 @@ const CredentialIssuanceDialog = ({
                       Power of Representation
                     </h3>
                     <p className="text-sm text-blue-700">
-                      Prove that you are authorised to represent Witbaard
+                      Prove that you are authorised to represent Krusty Krab
                       Feestartikelen as an individual.
                     </p>
                   </div>

@@ -49,7 +49,7 @@ async function mockGetVerificationStatus(): Promise<VerificationStatusResponse> 
       verified: true,
       credential: {
         id: "NLNHR.90001356",
-        name: "Witbaard Feestartikelen",
+        name: "Krusty Krab",
         attestation_legal_category: "PUB-EAA",
         issuing_authority: "Kamer van Koophandel",
         issuing_country: "NL",

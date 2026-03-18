@@ -94,7 +94,7 @@ const KVKVerifierPage = () => {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h3 className="text-xl font-semibold text-kvk-text-primary mb-2">
-                  Witbaard Feestartikelen
+                  Krusty Krab
                 </h3>
                 <div className="space-y-1 text-kvk-text-secondary">
                   <p>KVK number: 90001356</p>
@@ -113,11 +113,6 @@ const KVKVerifierPage = () => {
               <CompanyCard
                 title="Visiting address"
                 content={visitingAddress}
-                clickable
-              />
-              <CompanyCard
-                title="Phone number"
-                content="(+31) 0612345678"
                 clickable
               />
             </div>
