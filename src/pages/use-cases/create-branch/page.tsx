@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import KVKHeader from "@/components/KVKHeader";
-import { ArrowLeft, GitBranch, Construction } from "lucide-react";
+import { ArrowLeft, GitBranch, Construction, Play } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -19,6 +19,25 @@ const CreateBranchPage = () => {
           <p className="text-kvk-text-secondary mb-8">
             Register a new company branch using verified business credentials.
           </p>
+          {/* Video Preview */}
+          <Card className="max-w-2xl mx-auto mb-8">
+            <CardContent className="pt-6">
+              <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                <iframe
+                  src="https://player.vimeo.com/video/1174913767"
+                  className="w-full h-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  title="Create Company Branch Demo Preview"
+                />
+              </div>
+              <p className="text-sm text-kvk-text-secondary flex items-center justify-center gap-2">
+                <Play className="w-4 h-4" />
+                This is a video preview, a fully working demo is coming soon.
+              </p>
+            </CardContent>
+          </Card>
+
           <Card className="max-w-md mx-auto">
             <CardContent className="flex flex-col items-center py-12">
               <Construction className="w-16 h-16 text-kvk-text-secondary mb-4" />
