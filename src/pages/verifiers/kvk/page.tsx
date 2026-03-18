@@ -49,7 +49,7 @@ const KVKVerifierPage = () => {
 
   const visitingAddress = (
     <div>
-      <p className="mb-1">Sint Jacobslaan 300</p>
+      <p className="mb-1">Bikini Bottom 3</p>
       <p>3511AH Utrecht</p>
     </div>
   );
