@@ -77,10 +77,11 @@ const relyingParties = [
   },
   {
     title: "FictiveCo",
-    description: "Coming soon",
+    description: "Verify your identity and organization to receive payments",
     icon: Store,
+    path: "/verifiers/fictiveco",
     color: "from-red-600 to-red-500",
-    comingSoon: true,
+    credentials: ["EBWOID", "EUCC"],
   },
 ];
 
@@ -182,31 +183,8 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relyingParties.map((rp) => {
               const IconComponent = rp.icon;
-              if (rp.comingSoon) {
-                return (
-                  <Card key={rp.title} className="relative overflow-hidden transition-all duration-300 h-full opacity-75">
-                    <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${rp.color}`} />
-                    <CardHeader className="pb-4">
-                      <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-xl bg-gradient-to-br ${rp.color} text-white shadow-lg`}>
-                          <IconComponent className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <CardTitle className="text-xl">{rp.title}</CardTitle>
-                          <Badge variant="secondary" className="mt-1">Coming soon</Badge>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-base">
-                        {rp.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                );
-              }
               return (
-                <Link key={rp.title} to={rp.path!} className="block">
+                <Link key={rp.title} to={rp.path} className="block">
                   <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer h-full">
                     <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${rp.color}`} />
                     <CardHeader className="pb-4">
@@ -221,15 +199,13 @@ const HomePage = () => {
                       <CardDescription className="text-base mb-3">
                         {rp.description}
                       </CardDescription>
-                      {rp.credentials && (
-                        <ul className="flex flex-wrap gap-2">
-                          {rp.credentials.map((cred) => (
-                            <li key={cred}>
-                              <Badge variant="secondary">{cred}</Badge>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                      <ul className="flex flex-wrap gap-2">
+                        {rp.credentials.map((cred) => (
+                          <li key={cred}>
+                            <Badge variant="secondary">{cred}</Badge>
+                          </li>
+                        ))}
+                      </ul>
                     </CardContent>
                   </Card>
                 </Link>

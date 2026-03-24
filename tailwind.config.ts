@@ -54,6 +54,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        google: {
+          blue: "hsl(var(--google-blue))",
+          "blue-hover": "hsl(var(--google-blue-hover))",
+          sidebar: "hsl(var(--google-sidebar))",
+          "sidebar-selected": "hsl(var(--google-sidebar-selected))",
+          "border-accent": "hsl(var(--google-border-accent))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
