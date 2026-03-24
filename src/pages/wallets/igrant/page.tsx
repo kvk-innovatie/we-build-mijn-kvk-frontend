@@ -4,21 +4,18 @@ import {
   Mail,
   Wallet,
   IdCard,
-  ClipboardList,
   ArrowLeft,
 } from "lucide-react";
 import InboxTab from "./InboxTab";
 import WalletTab from "./WalletTab";
 import IssuerTab from "./IssuerTab";
-import ActivitiesTab from "./ActivitiesTab";
 
-type Tab = "inbox" | "wallet" | "issuer" | "activities";
+type Tab = "inbox" | "wallet" | "issuer";
 
 const navItems: { name: string; tab: Tab; icon: typeof Mail }[] = [
   { name: "Inbox", tab: "inbox", icon: Mail },
   { name: "Wallet", tab: "wallet", icon: Wallet },
   { name: "Issuer", tab: "issuer", icon: IdCard },
-  { name: "Activities", tab: "activities", icon: ClipboardList },
 ];
 
 export default function IGrantWalletPage() {
@@ -82,7 +79,7 @@ export default function IGrantWalletPage() {
             </li>
 
             {/* Profile */}
-            <li className="-mx-6 mb-0">
+            {/* <li className="-mx-6 mb-0">
               <div className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900">
                 <img
                   className="h-8 w-8 rounded-full bg-gray-50"
@@ -91,7 +88,7 @@ export default function IGrantWalletPage() {
                 />
                 <span>Jan Klaassen</span>
               </div>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>
@@ -101,7 +98,6 @@ export default function IGrantWalletPage() {
         {activeTab === "inbox" && <InboxTab />}
         {activeTab === "wallet" && <WalletTab />}
         {activeTab === "issuer" && <IssuerTab />}
-        {activeTab === "activities" && <ActivitiesTab />}
       </div>
     </div>
   );
