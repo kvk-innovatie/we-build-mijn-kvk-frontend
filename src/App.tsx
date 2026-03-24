@@ -14,6 +14,7 @@ import CreateBranchPage from "./pages/use-cases/create-branch/page";
 import KVKVerifierPage from "./pages/verifiers/kvk/page";
 import InfogreffeVerifierPage from "./pages/verifiers/infogreffe/page";
 import BelastingdienstVerifierPage from "./pages/verifiers/belastingdienst/page";
+import IGrantWalletPage from "./pages/wallets/igrant/page";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/verifiers/kvk" element={<KVKVerifierPage />} />
           <Route path="/verifiers/infogreffe" element={<InfogreffeVerifierPage />} />
           <Route path="/verifiers/belastingdienst" element={<BelastingdienstVerifierPage />} />
+          <Route path="/wallets/igrant" element={<IGrantWalletPage />} />
           {/* Redirects for old /issue paths */}
           <Route path="/issue" element={<Navigate to="/issuers" replace />} />
           <Route path="/issue/*" element={<Navigate to="/issuers" replace />} />

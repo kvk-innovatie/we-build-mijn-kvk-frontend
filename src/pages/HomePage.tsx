@@ -104,10 +104,10 @@ const businessWallets = [
   },
   {
     title: "iGrant",
-    description: "Coming soon",
+    description: "iGrant.io organisational wallet for business credentials",
     icon: Wallet,
-    color: "from-gray-700 to-gray-500",
-    comingSoon: true,
+    color: "from-[#6366f1] to-[#8b5cf6]",
+    path: "/wallets/igrant",
   },
   {
     title: "Procivis",
@@ -349,24 +349,34 @@ const HomePage = () => {
                   </Card>
                 );
               }
+              const walletCard = (
+                <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer h-full">
+                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${wallet.color}`} />
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${wallet.color} text-white shadow-lg`}>
+                        <IconComponent className="w-6 h-6" />
+                      </div>
+                      <CardTitle className="text-xl">{wallet.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-base">
+                      {wallet.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              );
+              if (wallet.path) {
+                return (
+                  <Link key={wallet.title} to={wallet.path} className="block">
+                    {walletCard}
+                  </Link>
+                );
+              }
               return (
                 <a key={wallet.title} href={wallet.href} target="_blank" rel="noopener noreferrer" className="block">
-                  <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] cursor-pointer h-full">
-                    <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${wallet.color}`} />
-                    <CardHeader className="pb-4">
-                      <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-xl bg-gradient-to-br ${wallet.color} text-white shadow-lg`}>
-                          <IconComponent className="w-6 h-6" />
-                        </div>
-                        <CardTitle className="text-xl">{wallet.title}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-base">
-                        {wallet.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
+                  {walletCard}
                 </a>
               );
             })}
