@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import KVKHeader from "@/components/KVKHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building2, ArrowRight, Shield, GitBranch, CreditCard, FileText, Store, Wallet, Smartphone, Briefcase } from "lucide-react";
+import { Building2, Shield, GitBranch, CreditCard, FileText, Store, Wallet, Smartphone, Briefcase } from "lucide-react";
 
 const useCases = [
   {
@@ -218,12 +218,6 @@ const HomePage = () => {
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-semibold text-kvk-blue">Issuers</h2>
-            <Link
-              to="/issuers"
-              className="text-kvk-blue hover:underline inline-flex items-center gap-1 font-medium"
-            >
-              View all issuers <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
           <p className="text-kvk-text-secondary mb-6">
             Trusted organisations that issue verifiable credentials to your digital wallet.
