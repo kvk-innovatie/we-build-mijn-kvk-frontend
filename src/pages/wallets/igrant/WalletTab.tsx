@@ -1,24 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { Eye, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import {
   listCredentials,
   deleteCredential,
@@ -34,7 +15,6 @@ export default function WalletTab() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isReceiveOpen, setIsReceiveOpen] = useState(false);
   const [isPresentOpen, setIsPresentOpen] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<WalletCredential | null>(null);
 
   const fetchCredentials = useCallback(async () => {
     try {
@@ -49,102 +29,87 @@ export default function WalletTab() {
     fetchCredentials();
   }, [fetchCredentials]);
 
-  const handleDelete = async () => {
-    if (!deleteTarget) return;
+  const handleDelete = async (credential: WalletCredential) => {
+    if (!confirm(`Are you sure you want to delete "${credential.title}"?`)) return;
     try {
       const credentialId =
-        (deleteTarget.raw.credentialId as string) ||
-        (deleteTarget.raw.id as string);
+        (credential.raw.credentialId as string) ||
+        (credential.raw.id as string);
       await deleteCredential(credentialId);
-      setCredentials((prev) => prev.filter((c) => c !== deleteTarget));
+      setCredentials((prev) => prev.filter((c) => c !== credential));
     } catch (error) {
       console.error("Error deleting credential:", error);
     }
-    setDeleteTarget(null);
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h2 className="text-base font-semibold text-gray-900">Wallet</h2>
-          <p className="mt-1 text-sm text-gray-700">
-            A list of all your organisation's attestations.
-          </p>
+    <div className="mt-10 px-4 sm:px-6 lg:px-8">
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold leading-6 text-gray-900">Wallet</h1>
+          <p className="mt-2 text-sm text-gray-700">A list of all your organisation's attestations.</p>
         </div>
-        <div className="flex space-x-3">
-          <Button onClick={() => setIsPresentOpen(true)}>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex space-x-3">
+          <button
+            type="button"
+            onClick={() => setIsPresentOpen(true)}
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
             Present Credential
-          </Button>
-          <Button
-            className="bg-green-600 hover:bg-green-500"
+          </button>
+          <button
+            type="button"
             onClick={() => setIsReceiveOpen(true)}
+            className="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
           >
             Receive Credential Offer
-          </Button>
+          </button>
         </div>
       </div>
-
-      <div className="rounded-lg border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Issuer</TableHead>
-              <TableHead>Valid until</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {credentials.map((credential, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <button
-                    className="text-indigo-600 hover:text-indigo-800 font-medium"
-                    onClick={() => {
-                      setSelectedCredential(credential.raw);
-                      setIsDetailOpen(true);
-                    }}
-                  >
-                    {credential.title}
-                  </button>
-                </TableCell>
-                <TableCell className="text-gray-500">
-                  {credential.issuer}
-                </TableCell>
-                <TableCell className="text-gray-500">
-                  {credential.validUntil}
-                </TableCell>
-                <TableCell>
-                  <div className="flex space-x-4">
-                    <button
-                      className="text-indigo-600 hover:text-indigo-900"
-                      onClick={() => {
-                        setSelectedCredential(credential.raw);
-                        setIsDetailOpen(true);
-                      }}
-                    >
-                      <Eye className="h-5 w-5" />
-                    </button>
-                    <button
-                      className="text-red-600 hover:text-red-900"
-                      onClick={() => setDeleteTarget(credential)}
-                    >
-                      <Trash2 className="h-5 w-5" />
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-            {credentials.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={4} className="text-center text-gray-500 py-8">
-                  No credentials in wallet
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+      <div className="mt-8 flow-root">
+        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-300">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Issuer</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Valid until</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {credentials.map((credential, index) => (
+                    <tr key={index} className="cursor-pointer">
+                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-indigo-600 hover:text-indigo-800 sm:pl-6">
+                        <button onClick={() => { setSelectedCredential(credential.raw); setIsDetailOpen(true); }}>
+                          {credential.title}
+                        </button>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{credential.issuer}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{credential.validUntil}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex space-x-4">
+                        <button
+                          onClick={() => { setSelectedCredential(credential.raw); setIsDetailOpen(true); }}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
+                          <Eye className="h-5 w-5" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(credential)}
+                          className="text-red-600 hover:text-red-900"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       <CredentialDetailDialog
@@ -162,22 +127,6 @@ export default function WalletTab() {
         onClose={() => setIsPresentOpen(false)}
         onPresented={fetchCredentials}
       />
-
-      <AlertDialog open={!!deleteTarget} onOpenChange={(o) => !o && setDeleteTarget(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete credential</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{deleteTarget?.title}"? This
-              action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

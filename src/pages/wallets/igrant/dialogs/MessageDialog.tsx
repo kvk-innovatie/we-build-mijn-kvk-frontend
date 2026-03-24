@@ -1,16 +1,7 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 function formatKey(key: string): string {
-  return key
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 function RenderValue({ value }: { value: unknown }) {
@@ -19,15 +10,13 @@ function RenderValue({ value }: { value: unknown }) {
       <ul className="list-disc pl-5">
         {value.map((item, index) => (
           <li key={index}>
-            {typeof item === "object" && item !== null ? (
-              Object.entries(item).map(([subKey, subValue]) => (
-                <div key={subKey} className="mb-1">
-                  <strong>{formatKey(subKey)}:</strong> {String(subValue)}
-                </div>
-              ))
-            ) : (
-              String(item)
-            )}
+            {typeof item === "object" && item !== null
+              ? Object.entries(item).map(([subKey, subValue]) => (
+                  <div key={subKey} className="mb-1">
+                    <strong>{formatKey(subKey)}:</strong> {String(subValue)}
+                  </div>
+                ))
+              : String(item)}
           </li>
         ))}
       </ul>
@@ -67,18 +56,16 @@ export default function MessageDialog({
 }: MessageDialogProps) {
   const [showRawData, setShowRawData] = useState(false);
 
-  if (!message) return null;
+  if (!open || !message) return null;
 
   const attestationType =
     (message.content?.attestation_type as string) || "Attestation Details";
   const data = message.content?.data as Record<string, unknown> | undefined;
 
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{attestationType}</DialogTitle>
-        </DialogHeader>
+    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full max-h-[calc(100vh-20px)] overflow-y-auto">
+        <h2 className="text-lg font-bold mb-4">{attestationType}</h2>
         <div className="space-y-4">
           {data &&
             Object.entries(data).map(([key, value]) => (
@@ -88,31 +75,30 @@ export default function MessageDialog({
               </div>
             ))}
           {!showRawData && (
-            <Button variant="secondary" onClick={() => setShowRawData(true)}>
+            <button onClick={() => setShowRawData(true)} className="px-4 py-2 bg-gray-200 text-black rounded">
               See Raw Data
-            </Button>
+            </button>
           )}
           {showRawData && (
             <>
               <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96 text-xs">
                 {JSON.stringify(message.content, null, 2)}
               </pre>
-              <Button variant="secondary" onClick={() => setShowRawData(false)}>
+              <button onClick={() => setShowRawData(false)} className="px-4 py-2 bg-gray-200 text-black rounded">
                 Hide Raw Data
-              </Button>
+              </button>
             </>
           )}
         </div>
-        <div className="mt-4 flex justify-end space-x-2">
-          <Button
-            className="bg-green-600 hover:bg-green-500"
-            onClick={onClose}
-          >
+        <div className="mt-4 text-right">
+          <button onClick={onClose} className="px-4 py-2 bg-green-600 text-white rounded mr-2">
             Accept Credential
-          </Button>
-          <Button onClick={onClose}>Close</Button>
+          </button>
+          <button onClick={onClose} className="px-4 py-2 bg-indigo-600 text-white rounded">
+            Close
+          </button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 }

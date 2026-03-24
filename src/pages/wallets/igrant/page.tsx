@@ -1,50 +1,108 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import KVKHeader from "@/components/KVKHeader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Mail,
+  Wallet,
+  IdCard,
+  ClipboardList,
+  ArrowLeft,
+} from "lucide-react";
 import InboxTab from "./InboxTab";
 import WalletTab from "./WalletTab";
 import IssuerTab from "./IssuerTab";
 import ActivitiesTab from "./ActivitiesTab";
 
+type Tab = "inbox" | "wallet" | "issuer" | "activities";
+
+const navItems: { name: string; tab: Tab; icon: typeof Mail }[] = [
+  { name: "Inbox", tab: "inbox", icon: Mail },
+  { name: "Wallet", tab: "wallet", icon: Wallet },
+  { name: "Issuer", tab: "issuer", icon: IdCard },
+  { name: "Activities", tab: "activities", icon: ClipboardList },
+];
+
 export default function IGrantWalletPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("inbox");
+
   return (
-    <div className="min-h-screen bg-background">
-      <KVKHeader />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link
-          to="/"
-          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-6"
-        >
-          <ArrowLeft className="h-4 w-4 mr-1" />
-          Back to Home
-        </Link>
+    <div className="flex h-screen bg-white">
+      {/* Sidebar */}
+      <div className="h-screen flex flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 w-64 shrink-0">
+        {/* Logo */}
+        <div className="mt-4 flex justify-center h-20 shrink-0 items-center">
+          <img
+            className="h-10 w-auto"
+            src="/orgwallet-logo.svg"
+            alt="OrgWallet"
+          />
+        </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
-          iGrant Organisational Wallet
-        </h1>
+        {/* Navigation */}
+        <nav className="flex flex-1 flex-col">
+          <ul className="flex flex-1 flex-col gap-y-7">
+            <li>
+              <ul className="-mx-2 space-y-1">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isCurrent = activeTab === item.tab;
+                  return (
+                    <li key={item.tab}>
+                      <button
+                        onClick={() => setActiveTab(item.tab)}
+                        className={`${
+                          isCurrent
+                            ? "bg-gray-50 text-indigo-600"
+                            : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                        } group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 w-full`}
+                      >
+                        <Icon
+                          className={`${
+                            isCurrent
+                              ? "text-indigo-600"
+                              : "text-gray-400 group-hover:text-indigo-600"
+                          } h-6 w-6 shrink-0`}
+                        />
+                        {item.name}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
 
-        <Tabs defaultValue="wallet">
-          <TabsList>
-            <TabsTrigger value="inbox">Inbox</TabsTrigger>
-            <TabsTrigger value="wallet">Wallet</TabsTrigger>
-            <TabsTrigger value="issuer">Issuer</TabsTrigger>
-            <TabsTrigger value="activities">Activities</TabsTrigger>
-          </TabsList>
-          <TabsContent value="inbox" className="mt-6">
-            <InboxTab />
-          </TabsContent>
-          <TabsContent value="wallet" className="mt-6">
-            <WalletTab />
-          </TabsContent>
-          <TabsContent value="issuer" className="mt-6">
-            <IssuerTab />
-          </TabsContent>
-          <TabsContent value="activities" className="mt-6">
-            <ActivitiesTab />
-          </TabsContent>
-        </Tabs>
-      </main>
+            {/* Back to KVK link at bottom */}
+            <li className="mt-auto -mx-6">
+              <Link
+                to="/"
+                className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50 w-full"
+              >
+                <ArrowLeft className="h-5 w-5 text-gray-400" />
+                <span>Back to WE BUILD</span>
+              </Link>
+            </li>
+
+            {/* Profile */}
+            <li className="-mx-6 mb-0">
+              <div className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900">
+                <img
+                  className="h-8 w-8 rounded-full bg-gray-50"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+                <span>Jan Klaassen</span>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* Content area */}
+      <div className="flex-1 overflow-y-auto">
+        {activeTab === "inbox" && <InboxTab />}
+        {activeTab === "wallet" && <WalletTab />}
+        {activeTab === "issuer" && <IssuerTab />}
+        {activeTab === "activities" && <ActivitiesTab />}
+      </div>
     </div>
   );
 }
