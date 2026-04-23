@@ -23,7 +23,7 @@ const STEPS: Step[] = [
           credentials will be stored.
         </p>
         <a
-          href="https://wallet-connect.eu/?mode=personal&lang=en"
+          href="https://wallet-connect.eu/install?mode=personal&lang=en"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-kvk-blue hover:underline font-medium"
