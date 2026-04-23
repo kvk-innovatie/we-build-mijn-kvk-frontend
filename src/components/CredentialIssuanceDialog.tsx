@@ -28,7 +28,8 @@ type DialogStep =
   | "select-wallet-ebwoid"
   | "select-wallet-eucc"
   | "select-wallet-ubo"
-  | "select-wallet-eu-poa";
+  | "select-wallet-eu-poa"
+  | "select-wallet-eucc-natural";
 
 interface CredentialIssuanceDialogProps {
   buttonKey: number;
@@ -169,6 +170,8 @@ const CredentialIssuanceDialog = ({
         return "Select the wallet you want to use to receive your UBO credential.";
       case "select-wallet-eu-poa":
         return "Select the wallet you want to use to receive your EU Power of Attorney.";
+      case "select-wallet-eucc-natural":
+        return "Select the wallet you want to use to receive your EUCC credential.";
       case "select-wallet-business":
         return "Select the wallet you want to use to receive your EUCC credential.";
     }
@@ -446,6 +449,30 @@ const CredentialIssuanceDialog = ({
                     Receive EU Power of Attorney
                   </Button>
                 </section>
+
+                <section className="border border-blue-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-blue-50 to-white shadow-sm">
+                  <Badge
+                    variant="outline"
+                    className="w-fit border-blue-200 bg-blue-100/80 text-blue-900"
+                  >
+                    Natural person wallet credential
+                  </Badge>
+                  <div>
+                    <h3 className="text-lg font-semibold text-blue-900">
+                      European Company Certificate (EUCC)
+                    </h3>
+                    <p className="text-sm text-blue-700">
+                      Receive an EUCC credential to your personal wallet to
+                      share verified company information across Europe.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() => setDialogStep("select-wallet-eucc-natural")}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Receive EUCC
+                  </Button>
+                </section>
               </div>
             )}
 
@@ -562,6 +589,28 @@ const CredentialIssuanceDialog = ({
                     issuance
                     label="NL-wallet"
                     clientId="nlw_45b8510259d2238b60ef561d0c608367"
+                    helpBaseUrl="https://example.com/"
+                    lang="en"
+                    onSuccess={handleWalletSuccess}
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* Step 2a3: Select wallet for EUCC (natural person, NL-wallet only) */}
+        {dialogStep === "select-wallet-eucc-natural" && (
+          <div className="space-y-6">
+            <section className="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-blue-50 to-white shadow-sm">
+              <div className="flex items-center gap-4">
+                <NLWalletFlag />
+                <div className="wallet-connect-wrapper natural flex-1">
+                  <WalletConnectButton
+                    key={`eucc-natural-${buttonKey}`}
+                    issuance
+                    label="NL-wallet"
+                    clientId="nlw_5713d7f3d3c6ac5f4bbc88e5b01549d0"
                     helpBaseUrl="https://example.com/"
                     lang="en"
                     onSuccess={handleWalletSuccess}

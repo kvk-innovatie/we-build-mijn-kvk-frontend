@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FileText } from "lucide-react";
-import WalletConnectButton from "wallet-connect-button-react";
+import { ArrowLeft, FileText, Wallet } from "lucide-react";
+import VatIdIssuanceDialog from "@/components/VatIdIssuanceDialog";
 
 const TaxRegistrationPage = () => {
+  const [buttonKey] = useState(0);
+  const handleWalletSuccess = (attributes: Record<string, unknown>) => {
+    console.log("VAT ID wallet transaction successful:", attributes);
+  };
   return (
     <div className="min-h-screen bg-white">
       {/* Belastingdienst header - clean white style */}
@@ -59,19 +64,18 @@ const TaxRegistrationPage = () => {
             {/* Wallet Connect Button */}
             <div className="flex flex-col items-center space-y-4">
               <p className="text-sm text-gray-600">
-                Click below to add this credential to your business wallet
+                Click below to add this credential to your personal or business wallet
               </p>
-              <div className="wallet-connect-wrapper tax">
-                <WalletConnectButton
-                  issuance
-                  label="Add VAT Number to Business Wallet"
-                  clientId="nlw_036d193f70e65b5a72296e87e56cb4f4"
-                  business
-                  helpBaseUrl="https://example.com/"
-                  lang="en"
-                  onSuccess={() => {}}
-                />
-              </div>
+              <VatIdIssuanceDialog
+                buttonKey={buttonKey}
+                onWalletSuccess={handleWalletSuccess}
+                trigger={
+                  <Button className="bg-[#154273] hover:bg-[#154273]/90 text-white font-medium gap-2">
+                    <Wallet className="w-4 h-4" />
+                    Receive VAT ID
+                  </Button>
+                }
+              />
             </div>
           </CardContent>
         </Card>

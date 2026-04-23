@@ -76,6 +76,14 @@ const relyingParties = [
     credentials: ["EBWOID"],
   },
   {
+    title: "Deutsche Bank",
+    description: "Complete your KYC process by scanning a QR code with your NL-wallet personal wallet",
+    icon: CreditCard,
+    path: "/verifiers/deutsche-bank",
+    color: "from-[#0018a8] to-[#3b82f6]",
+    credentials: ["Personal ID"],
+  },
+  {
     title: "FictiveCo",
     description: "Verify your identity and organization to receive payments",
     icon: Store,

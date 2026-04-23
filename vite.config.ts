@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => ({
         target: "http://localhost:8000",
         changeOrigin: true,
       },
+      "/n8n": {
+        target: "https://multijugate-paxton-noninfluentially.ngrok-free.dev",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/n8n/, ""),
+      },
     },
   },
   plugins: [react()],

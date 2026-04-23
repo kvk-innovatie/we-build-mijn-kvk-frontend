@@ -4,18 +4,21 @@ import {
   Mail,
   Wallet,
   IdCard,
+  Bot,
   ArrowLeft,
 } from "lucide-react";
 import InboxTab from "./InboxTab";
 import WalletTab from "./WalletTab";
 import IssuerTab from "./IssuerTab";
+import AiAgentTab from "./AiAgentTab";
 
-type Tab = "inbox" | "wallet" | "issuer";
+type Tab = "inbox" | "wallet" | "issuer" | "ai-agent";
 
 const navItems: { name: string; tab: Tab; icon: typeof Mail }[] = [
   { name: "Inbox", tab: "inbox", icon: Mail },
   { name: "Wallet", tab: "wallet", icon: Wallet },
   { name: "Issuer", tab: "issuer", icon: IdCard },
+  { name: "AI Agent", tab: "ai-agent", icon: Bot },
 ];
 
 export default function IGrantWalletPage() {
@@ -26,11 +29,11 @@ export default function IGrantWalletPage() {
       {/* Sidebar */}
       <div className="h-screen flex flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 w-64 shrink-0">
         {/* Logo */}
-        <div className="mt-4 flex justify-center h-20 shrink-0 items-center">
+        <div className="mt-4 flex justify-center h-32 shrink-0 items-center">
           <img
-            className="h-10 w-auto"
-            src="/orgwallet-logo.svg"
-            alt="OrgWallet"
+            className="h-32 w-auto"
+            src="/igrant2.png"
+            alt="iGrant.io"
           />
         </div>
 
@@ -98,6 +101,7 @@ export default function IGrantWalletPage() {
         {activeTab === "inbox" && <InboxTab />}
         {activeTab === "wallet" && <WalletTab />}
         {activeTab === "issuer" && <IssuerTab />}
+        {activeTab === "ai-agent" && <AiAgentTab />}
       </div>
     </div>
   );
