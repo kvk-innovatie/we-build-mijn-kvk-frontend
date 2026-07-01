@@ -220,8 +220,8 @@ const VatIdIssuanceDialog = ({
                   <WalletConnectButton
                     key={`vat-business-${buttonKey}`}
                     issuance
-                    label="NL-wallet"
-                    clientId="nlw_036d193f70e65b5a72296e87e56cb4f4"
+                    label="Add data to your business wallet"
+                    clientId="nlw_0ff43861dab416157e2cbfdf3f553e26"
                     business
                     helpBaseUrl="https://example.com/"
                     lang="en"

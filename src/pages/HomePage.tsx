@@ -41,7 +41,7 @@ const issuers = [
     credentials: ["IBAN"],
   },
   {
-    title: "Tax Authority",
+    title: "Belastingdienst",
     description: "Get your VAT number",
     icon: FileText,
     path: "/issuers/tax-registration",
@@ -137,7 +137,7 @@ const HomePage = () => {
         <section className="mb-12 text-center">
           <div className="mb-6">
             <h1 className="text-4xl font-bold text-kvk-text-primary mb-2">
-              TEST WE BUILD Consortium
+              WE BUILD Consortium
             </h1>
             <p className="text-xl text-kvk-text-secondary max-w-2xl mx-auto">
               Official KVK pilot environment for the WE BUILD Consortium.
