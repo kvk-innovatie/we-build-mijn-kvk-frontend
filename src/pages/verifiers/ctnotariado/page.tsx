@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactElement } from "react";
 import { Link } from "react-router-dom";
 import WalletConnectButton from "wallet-connect-button-react";
 import {
@@ -75,12 +75,77 @@ const prettifyKey = (key: string) =>
     .replace(/\b\w/g, (c) => c.toUpperCase())
     .trim();
 
-const formatAttrValue = (value: unknown): string => {
-  if (value === null || value === undefined) return "—";
+const formatPrimitive = (value: unknown): string => {
   if (typeof value === "boolean") return value ? "Yes" : "No";
-  if (Array.isArray(value)) return value.map((v) => formatAttrValue(v)).join(", ");
-  if (typeof value === "object") return JSON.stringify(value);
   return String(value);
+};
+
+// A value counts as "empty" (and is hidden) when it is null/undefined, a blank
+// string, or an array/object whose entries are all themselves empty.
+const isEmptyValue = (value: unknown): boolean => {
+  if (value === null || value === undefined) return true;
+  if (typeof value === "string") return value.trim() === "";
+  if (Array.isArray(value)) return value.every(isEmptyValue);
+  if (typeof value === "object") {
+    return Object.values(value as Record<string, unknown>).every(isEmptyValue);
+  }
+  return false;
+};
+
+// Recursively render an attribute value: primitives inline, objects as a
+// labelled list, arrays of objects as stacked cards — skipping every empty field.
+const AttributeValue = ({ value }: { value: unknown }): ReactElement | null => {
+  if (Array.isArray(value)) {
+    const items = value.filter((v) => !isEmptyValue(v));
+    if (items.length === 0) return null;
+    const allPrimitive = items.every((v) => v === null || typeof v !== "object");
+    if (allPrimitive) {
+      return <span>{items.map((v) => formatPrimitive(v)).join(", ")}</span>;
+    }
+    return (
+      <div className="space-y-2">
+        {items.map((item, i) => (
+          <div
+            key={i}
+            className="rounded-md border px-3 py-2"
+            style={{ borderColor: BORDER, background: BG }}
+          >
+            <AttributeValue value={item} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (value !== null && typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>).filter(
+      ([, v]) => !isEmptyValue(v),
+    );
+    if (entries.length === 0) return null;
+    return (
+      <div className="space-y-1">
+        {entries.map(([k, v]) => {
+          const nested = v !== null && typeof v === "object";
+          return (
+            <div key={k} className={nested ? "" : "flex flex-wrap gap-x-1.5"}>
+              <span className="font-semibold" style={{ color: MID_NAVY }}>
+                {prettifyKey(k)}:
+              </span>
+              {nested ? (
+                <div className="mt-1 ml-3">
+                  <AttributeValue value={v} />
+                </div>
+              ) : (
+                <span style={{ color: TEXT }}>{formatPrimitive(v)}</span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  return <span>{formatPrimitive(value)}</span>;
 };
 
 const AttributeList = ({
@@ -93,7 +158,7 @@ const AttributeList = ({
   attrs: Record<string, unknown> | null;
 }) => {
   const entries = attrs
-    ? Object.entries(attrs).filter(([, v]) => v !== null && v !== undefined && v !== "")
+    ? Object.entries(attrs).filter(([, v]) => !isEmptyValue(v))
     : [];
   return (
     <div>
@@ -121,7 +186,7 @@ const AttributeList = ({
                     {prettifyKey(key)}
                   </th>
                   <td className="py-2.5 px-4 align-top break-words" style={{ color: TEXT }}>
-                    {formatAttrValue(value)}
+                    <AttributeValue value={value} />
                   </td>
                 </tr>
               ))}
