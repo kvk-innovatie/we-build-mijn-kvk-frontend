@@ -15,6 +15,7 @@ import {
   PhoneOff,
   ShieldCheck,
   Loader2,
+  User,
   Video,
   VideoOff,
   Wallet,
@@ -36,7 +37,7 @@ const TEXT = "#272833";
 const NOTARY_NAME = "Martí";
 const NOTARY_TITLE = "Notari · Il·lustre Col·legi de Notaris de Catalunya";
 
-type Stage = "login" | "share-business" | "call" | "validating" | "complete";
+type Stage = "login" | "share-business" | "review" | "call" | "validating" | "complete";
 
 const PROCESS_STEPS: { key: Stage; label: string; icon: typeof Building2 }[] = [
   { key: "share-business", label: "Business data", icon: Building2 },
@@ -67,6 +68,71 @@ const pickString = (
   return fallback;
 };
 
+const prettifyKey = (key: string) =>
+  key
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_.]/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+
+const formatAttrValue = (value: unknown): string => {
+  if (value === null || value === undefined) return "—";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (Array.isArray(value)) return value.map((v) => formatAttrValue(v)).join(", ");
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
+};
+
+const AttributeList = ({
+  title,
+  icon: Icon,
+  attrs,
+}: {
+  title: string;
+  icon: typeof Building2;
+  attrs: Record<string, unknown> | null;
+}) => {
+  const entries = attrs
+    ? Object.entries(attrs).filter(([, v]) => v !== null && v !== undefined && v !== "")
+    : [];
+  return (
+    <div>
+      <div
+        className="flex items-center gap-2 mb-2 text-[12px] uppercase tracking-wider font-semibold"
+        style={{ color: NAVY }}
+      >
+        <Icon className="w-4 h-4" />
+        {title}
+      </div>
+      <div className="border rounded-lg overflow-hidden" style={{ borderColor: BORDER }}>
+        {entries.length === 0 ? (
+          <div className="px-4 py-3 text-[13px]" style={{ color: MUTED }}>
+            No attributes received.
+          </div>
+        ) : (
+          <table className="w-full text-[13px] border-collapse">
+            <tbody>
+              {entries.map(([key, value]) => (
+                <tr key={key} className="border-b last:border-b-0" style={{ borderColor: BORDER }}>
+                  <th
+                    className="text-left py-2.5 px-4 font-semibold w-[45%] align-top"
+                    style={{ color: MID_NAVY, background: BG }}
+                  >
+                    {prettifyKey(key)}
+                  </th>
+                  <td className="py-2.5 px-4 align-top break-words" style={{ color: TEXT }}>
+                    {formatAttrValue(value)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Wordmark = ({ light = false }: { light?: boolean }) => (
   <div className="flex items-center gap-2 leading-none">
     <span
@@ -83,7 +149,7 @@ const Wordmark = ({ light = false }: { light?: boolean }) => (
 
 const CTNotariadoVerifierPage = () => {
   const [stage, setStage] = useState<Stage>("login");
-  const [, setLoginAttributes] = useState<Record<string, unknown> | null>(null);
+  const [loginAttributes, setLoginAttributes] = useState<Record<string, unknown> | null>(null);
   const [businessAttributes, setBusinessAttributes] = useState<Record<string, unknown> | null>(null);
   const [callSeconds, setCallSeconds] = useState(0);
   const [micOn, setMicOn] = useState(true);
@@ -146,11 +212,11 @@ const CTNotariadoVerifierPage = () => {
 
   const handleBusinessSuccess = (attrs: Record<string, unknown>) => {
     setBusinessAttributes(attrs);
-    setCallSeconds(0);
-    setStage("call");
+    setStage("review");
   };
 
-  const currentStepIndex = PROCESS_STEPS.findIndex((s) => s.key === stage);
+  const stepStage = stage === "review" ? "share-business" : stage;
+  const currentStepIndex = PROCESS_STEPS.findIndex((s) => s.key === stepStage);
   const callTime = `${String(Math.floor(callSeconds / 60)).padStart(2, "0")}:${String(
     callSeconds % 60,
   ).padStart(2, "0")}`;
@@ -378,6 +444,47 @@ const CTNotariadoVerifierPage = () => {
                 </div>
               )}
 
+              {/* Step 1b — review shared data before the notary call */}
+              {stage === "review" && (
+                <div className="p-8">
+                  <div className="flex items-center gap-3 mb-2">
+                    <ShieldCheck className="w-6 h-6" style={{ color: NAVY }} />
+                    <h2 className="text-[20px] font-bold" style={{ color: NAVY }}>
+                      Review the data you will share
+                    </h2>
+                  </div>
+                  <p className="text-[14px] leading-relaxed mb-6" style={{ color: MUTED }}>
+                    You are about to share all of this data with the notary. Please review it
+                    before continuing to your call.
+                  </p>
+                  <div className="space-y-6">
+                    <AttributeList title="Personal wallet" icon={User} attrs={loginAttributes} />
+                    <AttributeList title="Business wallet" icon={Building2} attrs={businessAttributes} />
+                  </div>
+                  <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => setStage("share-business")}
+                      className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold border transition-colors"
+                      style={{ borderColor: BORDER, color: MID_NAVY }}
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      Back
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCallSeconds(0);
+                        setStage("call");
+                      }}
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-bold text-white transition-transform hover:-translate-y-0.5"
+                      style={{ backgroundColor: NAVY, boxShadow: "0 6px 16px rgba(13,31,97,0.28)" }}
+                    >
+                      Confirm &amp; share with the notary
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Step 2 — notary video call */}
               {stage === "call" && (
                 <div className="p-8">
@@ -550,7 +657,7 @@ const CTNotariadoVerifierPage = () => {
                         <div className="wallet-connect-wrapper ctn navy w-full flex justify-center">
                           <WalletConnectButton
                             issuance
-                            label="Add data to your business wallet"
+                            label="Add Purchase Contract to your business wallet"
                             clientId="nlw_9ac84aa85c90a1b2639371b4cf432da6"
                             business
                             helpBaseUrl="https://example.com/"
