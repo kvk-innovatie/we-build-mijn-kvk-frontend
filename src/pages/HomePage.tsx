@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import KVKHeader from "@/components/KVKHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building2, Shield, GitBranch, CreditCard, FileText, Store, Wallet, Smartphone, Briefcase } from "lucide-react";
+import { Building2, Shield, GitBranch, CreditCard, FileText, Store, Wallet, Smartphone, Briefcase, Stamp } from "lucide-react";
 
 const useCases = [
   {
@@ -90,6 +90,14 @@ const relyingParties = [
     path: "/verifiers/fictiveco",
     color: "from-red-600 to-red-500",
     credentials: ["EBWOID", "EUCC"],
+  },
+  {
+    title: "Centre Tecnològic del Notariat",
+    description: "Catalan notarial technology centre — sign your notarial purchase deed online using verified business credentials",
+    icon: Stamp,
+    path: "/verifiers/ctnotariado",
+    color: "from-[#0D1F61] to-[#354376]",
+    credentials: ["EBWOID", "Purchase Contract"],
   },
 ];
 

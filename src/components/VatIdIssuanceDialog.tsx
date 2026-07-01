@@ -15,8 +15,7 @@ import { cn } from "@/lib/utils";
 
 type DialogStep =
   | "select-credential"
-  | "select-wallet-natural"
-  | "select-wallet-business";
+  | "select-wallet-natural";
 
 interface VatIdIssuanceDialogProps {
   buttonKey: number;
@@ -71,8 +70,6 @@ const VatIdIssuanceDialog = ({
       case "select-credential":
         return "Choose the credential type you want to issue to your wallet.";
       case "select-wallet-natural":
-        return "Select the wallet you want to use to receive your VAT ID credential.";
-      case "select-wallet-business":
         return "Select the wallet you want to use to receive your VAT ID credential.";
     }
   };
@@ -176,12 +173,21 @@ const VatIdIssuanceDialog = ({
                       business wallet.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-business")}
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    Receive VAT ID
-                  </Button>
+                  <div className="flex items-center gap-4">
+                    <NLWalletFlag />
+                    <div className="wallet-connect-wrapper business flex-1">
+                      <WalletConnectButton
+                        key={`vat-business-${buttonKey}`}
+                        issuance
+                        label="Add data to your business wallet"
+                        clientId="nlw_446adc1f4387c4474e7959e5321dafbf"
+                        business
+                        helpBaseUrl="https://example.com/"
+                        lang="en"
+                        onSuccess={handleWalletSuccess}
+                      />
+                    </div>
+                  </div>
                 </section>
               </div>
             )}
@@ -200,29 +206,6 @@ const VatIdIssuanceDialog = ({
                     issuance
                     label="NL-wallet"
                     clientId="nlw_8214492433dea6e4768045fe2d532d33"
-                    helpBaseUrl="https://example.com/"
-                    lang="en"
-                    onSuccess={handleWalletSuccess}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-        )}
-
-        {/* Step 2b: Select wallet for Business (NL-wallet) */}
-        {dialogStep === "select-wallet-business" && (
-          <div className="space-y-6">
-            <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
-              <div className="flex items-center gap-4">
-                <NLWalletFlag />
-                <div className="wallet-connect-wrapper business flex-1">
-                  <WalletConnectButton
-                    key={`vat-business-${buttonKey}`}
-                    issuance
-                    label="Add data to your business wallet"
-                    clientId="nlw_446adc1f4387c4474e7959e5321dafbf"
-                    business
                     helpBaseUrl="https://example.com/"
                     lang="en"
                     onSuccess={handleWalletSuccess}

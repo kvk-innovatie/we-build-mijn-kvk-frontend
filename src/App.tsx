@@ -16,6 +16,7 @@ import BelastingdienstVerifierPage from "./pages/verifiers/belastingdienst/page"
 import IGrantWalletPage from "./pages/wallets/igrant/page";
 import FictiveCoVerifierPage from "./pages/verifiers/fictiveco/page";
 import DeutscheBankVerifierPage from "./pages/verifiers/deutsche-bank/page";
+import CTNotariadoVerifierPage from "./pages/verifiers/ctnotariado/page";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/verifiers/belastingdienst" element={<BelastingdienstVerifierPage />} />
           <Route path="/verifiers/fictiveco" element={<FictiveCoVerifierPage />} />
           <Route path="/verifiers/deutsche-bank" element={<DeutscheBankVerifierPage />} />
+          <Route path="/verifiers/ctnotariado" element={<CTNotariadoVerifierPage />} />
           <Route path="/wallets/igrant" element={<IGrantWalletPage />} />
           {/* Redirects for old /issue paths */}
           <Route path="/issue" element={<Navigate to="/" replace />} />
