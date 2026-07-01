@@ -221,7 +221,7 @@ const VatIdIssuanceDialog = ({
                     key={`vat-business-${buttonKey}`}
                     issuance
                     label="Add data to your business wallet"
-                    clientId="nlw_0ff43861dab416157e2cbfdf3f553e26"
+                    clientId="nlw_446adc1f4387c4474e7959e5321dafbf"
                     business
                     helpBaseUrl="https://example.com/"
                     lang="en"
