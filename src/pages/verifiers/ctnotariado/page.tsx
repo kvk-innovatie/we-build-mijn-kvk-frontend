@@ -497,8 +497,8 @@ const CTNotariadoVerifierPage = () => {
                   >
                     <div className="wallet-connect-wrapper ctn navy w-full max-w-[420px] flex justify-center">
                       <WalletConnectButton
-                        clientId="nlw_052bca98ea7639e40144ed30679699a3"
-                        apiKey="4a055b11d137d7081ca35fcbc42f2f19ba505dc95b13fc6e5a648f8142276e8b"
+                        clientId="nlw_4a6e83e81665490fe9bcdb6c151cd23d"
+                        apiKey="d8f908e75048b8737a88611e8bbe60551e63d2790636071fdf6db40366f70939"
                         business
                         label="Share data with your business wallet"
                         lang="en"
