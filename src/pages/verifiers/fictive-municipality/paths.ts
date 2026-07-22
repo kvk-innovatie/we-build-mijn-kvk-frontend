@@ -6,4 +6,5 @@ export const PATHS = {
   login: `${BASE_PATH}/login`,
   application: `${BASE_PATH}/application`,
   confirmation: `${BASE_PATH}/confirmation`,
+  admin: `${BASE_PATH}/admin`,
 } as const;

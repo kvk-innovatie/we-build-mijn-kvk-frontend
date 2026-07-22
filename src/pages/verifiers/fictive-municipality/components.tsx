@@ -3,7 +3,7 @@ import { useI18n } from "./i18n";
 import { useCompany } from "./CompanyContext";
 import { BASE_PATH, PATHS } from "./paths";
 
-export function SiteHeader({ activePage }: { activePage: "home" | "vergunningen" }) {
+export function SiteHeader({ activePage }: { activePage: "home" | "vergunningen" | "admin" }) {
   const { lang, setLang, t } = useI18n();
   return (
     <header className="site-header">
@@ -68,6 +68,11 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-copy">{t("footer.copy")}</div>
+        <ul className="footer-links">
+          <li>
+            <Link to={PATHS.admin}>{t("footer.admin")}</Link>
+          </li>
+        </ul>
       </div>
     </footer>
   );

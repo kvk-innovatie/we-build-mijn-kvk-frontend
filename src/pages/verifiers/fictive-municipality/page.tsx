@@ -8,6 +8,7 @@ import ProductPage from "./ProductPage";
 import LoginPage from "./LoginPage";
 import ApplicationPage from "./ApplicationPage";
 import ConfirmationPage from "./ConfirmationPage";
+import AdminPage from "./AdminPage";
 
 const FictiveMunicipalityPage = () => (
   <div className="fictive-municipality-scope">
@@ -19,6 +20,7 @@ const FictiveMunicipalityPage = () => (
           <Route path="/login" element={<LoginPage />} />
           <Route path="/application" element={<ApplicationPage />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </CompanyProvider>
     </I18nProvider>

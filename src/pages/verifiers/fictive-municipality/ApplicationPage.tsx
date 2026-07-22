@@ -5,27 +5,16 @@ import { useCompany } from "./CompanyContext";
 import { displayableAttributes, labelForAttribute } from "./attributes";
 import { SiteHeader, SiteFooter, LoggedInBar } from "./components";
 import { BASE_PATH, PATHS } from "./paths";
-
-export interface ApplicationFormData {
-  email: string;
-  phone: string;
-  market: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  pitchSize: string;
-  goods: string;
-  traderName: string;
-  traderBirthdate: string;
-  assignment: string;
-  assignmentNr: string;
-}
+import {
+  generateReference,
+  saveApplication,
+  type ApplicationFormData,
+  type StoredApplication,
+} from "./applications";
 
 const ApplicationPage = () => {
   const navigate = useNavigate();
-  const { attributes, flat, representative } = useCompany();
+  const { attributes, flat, company, representative } = useCompany();
   const { t, lang } = useI18n();
   const [form, setForm] = useState<ApplicationFormData>({
     email: "",
@@ -82,7 +71,17 @@ const ApplicationPage = () => {
       document.getElementById(firstField)?.focus();
       return;
     }
-    navigate(PATHS.confirmation, { state: form });
+    const application: StoredApplication = {
+      reference: generateReference(),
+      submittedAt: new Date().toISOString(),
+      status: "pending",
+      form,
+      company,
+      representative,
+      walletFields: walletFields.map(([key, value]) => [key, String(value)]),
+    };
+    saveApplication(application);
+    navigate(PATHS.confirmation, { state: application });
   };
 
   return (

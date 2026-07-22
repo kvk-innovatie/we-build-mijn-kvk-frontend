@@ -553,6 +553,206 @@
   font-size: 14px;
 }
 
+.fictive-municipality-scope .footer-links {
+  gap: 24px;
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+
+.fictive-municipality-scope .footer-links a {
+  color: var(--nij-gray);
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.fictive-municipality-scope .footer-links a:hover {
+  color: #fff;
+}
+
+/* Admin view */
+
+.fictive-municipality-scope .admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.fictive-municipality-scope .admin-count {
+  color: var(--nij-gray-dark);
+  font-size: 14px;
+  margin: 16px 0 24px;
+}
+
+.fictive-municipality-scope .admin-empty {
+  background: var(--nij-gray-light);
+  border: 1px solid var(--nij-gray);
+  border-radius: 8px;
+  padding: 40px;
+  margin-top: 32px;
+  text-align: center;
+}
+
+.fictive-municipality-scope .admin-empty p {
+  color: var(--nij-gray-dark);
+  margin: 0 0 6px;
+}
+
+.fictive-municipality-scope .admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--nij-gray);
+  border-radius: 8px;
+}
+
+.fictive-municipality-scope .admin-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 900px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.fictive-municipality-scope .admin-table th {
+  background: var(--nij-gray-light);
+  border-bottom: 2px solid var(--nij-gray);
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fictive-municipality-scope .admin-table td {
+  border-bottom: 1px solid var(--nij-gray);
+  padding: 14px 16px;
+  vertical-align: top;
+}
+
+.fictive-municipality-scope .admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.fictive-municipality-scope .admin-verified {
+  display: block;
+  color: var(--nij-green-dark);
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.fictive-municipality-scope .status-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fictive-municipality-scope .status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.fictive-municipality-scope .status-approved {
+  background: var(--nij-green-light);
+  color: var(--nij-green-dark);
+}
+
+.fictive-municipality-scope .status-rejected {
+  background: #fde2e2;
+  color: #a00;
+}
+
+.fictive-municipality-scope .admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fictive-municipality-scope .btn-admin {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.fictive-municipality-scope .btn-approve {
+  background: var(--nij-green);
+  border: 1px solid var(--nij-green);
+  color: #fff;
+}
+
+.fictive-municipality-scope .btn-approve:hover {
+  background: var(--nij-green-dark);
+}
+
+.fictive-municipality-scope .btn-reject {
+  background: #fff;
+  border: 1px solid var(--nij-red);
+  color: var(--nij-red);
+}
+
+.fictive-municipality-scope .btn-reject:hover {
+  background: var(--nij-red);
+  color: #fff;
+}
+
+.fictive-municipality-scope .btn-details {
+  background: #fff;
+  border: 1px solid var(--nij-border);
+  color: var(--nij-text);
+}
+
+.fictive-municipality-scope .btn-details:hover {
+  border-color: var(--nij-gray-dark);
+  background: var(--nij-gray-light);
+}
+
+.fictive-municipality-scope .admin-details-row td {
+  background: var(--nij-gray-light);
+  padding: 24px 16px;
+}
+
+.fictive-municipality-scope .admin-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.fictive-municipality-scope .admin-details h3 {
+  border-bottom: 2px solid var(--nij-green);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.fictive-municipality-scope .admin-details h3:not(:first-child) {
+  margin-top: 24px;
+}
+
+.fictive-municipality-scope .admin-details dl {
+  display: grid;
+  gap: 10px;
+}
+
+.fictive-municipality-scope .admin-details dt {
+  color: var(--nij-gray-dark);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fictive-municipality-scope .admin-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .fictive-municipality-scope .logged-in-bar {
   background: var(--nij-green-light);
   border-bottom: 1px solid var(--nij-green);

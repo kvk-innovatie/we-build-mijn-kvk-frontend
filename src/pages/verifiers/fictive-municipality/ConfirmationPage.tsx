@@ -1,10 +1,9 @@
-import { useMemo } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useI18n } from "./i18n";
 import { useCompany } from "./CompanyContext";
 import { SiteHeader, SiteFooter, LoggedInBar } from "./components";
 import { BASE_PATH, PATHS } from "./paths";
-import type { ApplicationFormData } from "./ApplicationPage";
+import type { StoredApplication } from "./applications";
 
 function formatDate(value: string, locale: string): string {
   if (!value) return "";
@@ -15,23 +14,21 @@ function formatDate(value: string, locale: string): string {
 }
 
 const ConfirmationPage = () => {
-  const { attributes, company, representative } = useCompany();
+  const { attributes } = useCompany();
   const { lang, t } = useI18n();
-  const form = useLocation().state as ApplicationFormData | null;
-  const reference = useMemo(
-    () => `MSP-${new Date().getFullYear()}-${Math.floor(1e5 + Math.random() * 9e5)}`,
-    []
-  );
+  const application = useLocation().state as StoredApplication | null;
 
-  if (!attributes || !form) {
+  if (!attributes || !application) {
     return <Navigate to={BASE_PATH} replace />;
   }
 
+  const { form, reference } = application;
   const locale = lang === "nl" ? "nl-NL" : "en-GB";
-  const companyName = company?.companyName || t("bevestiging.unknownCompany");
+  const companyName = application.company?.companyName || t("bevestiging.unknownCompany");
   const applicant =
-    [representative?.name || "", companyName].filter(Boolean).join(` ${t("bevestiging.namens")} `) ||
-    "-";
+    [application.representative?.name || "", companyName]
+      .filter(Boolean)
+      .join(` ${t("bevestiging.namens")} `) || "-";
   const start = form.startDate;
   const end = form.endDate;
   const period =
