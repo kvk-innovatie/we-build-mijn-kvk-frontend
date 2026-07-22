@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import KVKHeader from "@/components/KVKHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building2, Shield, GitBranch, CreditCard, FileText, Store, Wallet, Smartphone, Briefcase, Stamp } from "lucide-react";
+import { Building2, Shield, GitBranch, CreditCard, FileText, Store, Wallet, Smartphone, Briefcase, Stamp, Landmark } from "lucide-react";
 
 const useCases = [
   {
@@ -90,6 +90,14 @@ const relyingParties = [
     path: "/verifiers/fictiveco",
     color: "from-red-600 to-red-500",
     credentials: ["EBWOID", "EUCC"],
+  },
+  {
+    title: "Fictive Municipality",
+    description: "Dutch municipality — apply for a market stall permit using your business wallet",
+    icon: Landmark,
+    path: "/verifiers/fictive-municipality",
+    color: "from-[#39870c] to-[#5cb85c]",
+    credentials: ["EBWOID", "PoA"],
   },
   {
     title: "Centre Tecnològic del Notariat",
