@@ -55,7 +55,7 @@ const VatIdIssuanceDialog = ({
     }
   };
 
-  const NLWalletFlag = () => (
+  const NPWalletFlag = () => (
     <div className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shadow-sm flex-shrink-0">
       <svg viewBox="0 0 9 6" className="w-full h-full">
         <rect width="9" height="2" fill="#AE1C28" />
@@ -174,7 +174,7 @@ const VatIdIssuanceDialog = ({
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
-                    <NLWalletFlag />
+                    <NPWalletFlag />
                     <div className="wallet-connect-wrapper business flex-1">
                       <WalletConnectButton
                         key={`vat-business-${buttonKey}`}
@@ -194,17 +194,17 @@ const VatIdIssuanceDialog = ({
           </div>
         )}
 
-        {/* Step 2a: Select wallet for Natural Person (NL-wallet) */}
+        {/* Step 2a: Select wallet for Natural Person (NP Wallet) */}
         {dialogStep === "select-wallet-natural" && (
           <div className="space-y-6">
             <section className="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-blue-50 to-white shadow-sm">
               <div className="flex items-center gap-4">
-                <NLWalletFlag />
+                <NPWalletFlag />
                 <div className="wallet-connect-wrapper natural flex-1">
                   <WalletConnectButton
                     key={`vat-natural-${buttonKey}`}
                     issuance
-                    label="NL-wallet"
+                    label="NP Wallet"
                     clientId="nlw_8214492433dea6e4768045fe2d532d33"
                     helpBaseUrl="https://example.com/"
                     lang="en"

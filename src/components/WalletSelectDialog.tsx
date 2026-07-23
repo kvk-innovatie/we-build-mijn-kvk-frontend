@@ -40,7 +40,7 @@ const WalletSelectDialog = ({
 
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* NL-wallet option - WalletConnectButton */}
+            {/* NP Wallet option - WalletConnectButton */}
             <section className="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-blue-50 to-white shadow-sm">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shadow-sm flex-shrink-0">
@@ -55,7 +55,7 @@ const WalletSelectDialog = ({
                   <WalletConnectButton
                     key={`natural-${buttonKey}`}
                     issuance
-                    label="NL-wallet"
+                    label="NP Wallet"
                     clientId={clientId}
                     helpBaseUrl="https://example.com/"
                     lang="en"

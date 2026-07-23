@@ -77,7 +77,7 @@ const relyingParties = [
   },
   {
     title: "Deutsche Bank",
-    description: "Complete your KYC process by scanning a QR code with your NL-wallet personal wallet",
+    description: "Complete your KYC process by scanning a QR code with your NP Wallet personal wallet",
     icon: CreditCard,
     path: "/verifiers/deutsche-bank",
     color: "from-[#0018a8] to-[#3b82f6]",
@@ -111,7 +111,7 @@ const relyingParties = [
 
 const naturalPersonWallets = [
   {
-    title: "NL-wallet",
+    title: "NP Wallet",
     description: "The Dutch government digital identity wallet for citizens",
     icon: Smartphone,
     color: "from-[#2563eb] to-[#3b82f6]",

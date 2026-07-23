@@ -23,13 +23,10 @@ import { cn } from "@/lib/utils";
 
 type DialogStep =
   | "select-credential"
-  | "select-wallet-natural"
   | "select-wallet-business"
   | "select-wallet-ebwoid"
   | "select-wallet-eucc"
-  | "select-wallet-ubo"
-  | "select-wallet-eu-poa"
-  | "select-wallet-eucc-natural";
+  | "select-wallet-ubo";
 
 interface CredentialIssuanceDialogProps {
   buttonKey: number;
@@ -160,25 +157,19 @@ const CredentialIssuanceDialog = ({
     switch (dialogStep) {
       case "select-credential":
         return "Choose the credential type you want to issue to your wallet.";
-      case "select-wallet-natural":
-        return "Select the wallet you want to use to receive your Power of Representation.";
       case "select-wallet-ebwoid":
         return "Select the wallet you want to use to receive your EBWOID credential.";
       case "select-wallet-eucc":
         return "Select the wallet you want to use to receive your EUCC credential.";
       case "select-wallet-ubo":
         return "Select the wallet you want to use to receive your UBO credential.";
-      case "select-wallet-eu-poa":
-        return "Select the wallet you want to use to receive your EU Power of Attorney.";
-      case "select-wallet-eucc-natural":
-        return "Select the wallet you want to use to receive your EUCC credential.";
       case "select-wallet-business":
         return "Select the wallet you want to use to receive your EUCC credential.";
     }
   };
 
   // Reusable sub-components for wallet options
-  const NLWalletFlag = () => (
+  const NPWalletFlag = () => (
     <div className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shadow-sm flex-shrink-0">
       <svg viewBox="0 0 9 6" className="w-full h-full">
         <rect width="9" height="2" fill="#AE1C28" />
@@ -411,19 +402,24 @@ const CredentialIssuanceDialog = ({
                   </Badge>
                   <div>
                     <h3 className="text-lg font-semibold text-blue-900">
-                      Power of Representation
+                      Power of Representation (PoR)
                     </h3>
                     <p className="text-sm text-blue-700">
                       Prove that you are authorised to represent Krusty Krab
                       Feestartikelen as an individual.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-natural")}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Receive Power of Representation
-                  </Button>
+                  <div className="wallet-connect-wrapper card-cta">
+                    <WalletConnectButton
+                      key={`natural-${buttonKey}`}
+                      issuance
+                      label="Receive Power of Representation"
+                      clientId="nlw_8d19d0a0db060be55b3e82e2d222ccf8"
+                      helpBaseUrl="https://example.com/"
+                      lang="en"
+                      onSuccess={handleWalletSuccess}
+                    />
+                  </div>
                 </section>
 
                 <section className="border border-blue-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-blue-50 to-white shadow-sm">
@@ -435,19 +431,24 @@ const CredentialIssuanceDialog = ({
                   </Badge>
                   <div>
                     <h3 className="text-lg font-semibold text-blue-900">
-                      EU Power of Attorney
+                      EU Power of Attorney (EU PoA)
                     </h3>
                     <p className="text-sm text-blue-700">
                       Receive an EU Power of Attorney credential to prove your
                       representation authority across Europe.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-eu-poa")}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Receive EU Power of Attorney
-                  </Button>
+                  <div className="wallet-connect-wrapper card-cta">
+                    <WalletConnectButton
+                      key={`eu-poa-${buttonKey}`}
+                      issuance
+                      label="Receive EU Power of Attorney"
+                      clientId="nlw_ebbfca5bfa9671ad015636beb10a8d8f"
+                      helpBaseUrl="https://example.com/"
+                      lang="en"
+                      onSuccess={handleWalletSuccess}
+                    />
+                  </div>
                 </section>
 
                 <section className="border border-blue-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-blue-50 to-white shadow-sm">
@@ -466,12 +467,17 @@ const CredentialIssuanceDialog = ({
                       share verified company information across Europe.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-eucc-natural")}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Receive EUCC
-                  </Button>
+                  <div className="wallet-connect-wrapper card-cta">
+                    <WalletConnectButton
+                      key={`eucc-natural-${buttonKey}`}
+                      issuance
+                      label="Receive EUCC"
+                      clientId="nlw_1376bbf884061c59920a9c33a68a4fae"
+                      helpBaseUrl="https://example.com/"
+                      lang="en"
+                      onSuccess={handleWalletSuccess}
+                    />
+                  </div>
                 </section>
               </div>
             )}
@@ -555,71 +561,7 @@ const CredentialIssuanceDialog = ({
           </div>
         )}
 
-        {/* Step 2a: Select wallet for Natural Person (NL-wallet only) */}
-        {dialogStep === "select-wallet-natural" && (
-          <div className="space-y-6">
-            <section className="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-blue-50 to-white shadow-sm">
-              <div className="flex items-center gap-4">
-                <NLWalletFlag />
-                <div className="wallet-connect-wrapper natural flex-1">
-                  <WalletConnectButton
-                    key={`natural-${buttonKey}`}
-                    issuance
-                    label="NL-wallet"
-                    clientId="nlw_2fe35d507c90c42aaa355cba14c3c8ed"
-                    helpBaseUrl="https://example.com/"
-                    lang="en"
-                    onSuccess={handleWalletSuccess}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-        )}
 
-        {/* Step 2a2: Select wallet for EU Power of Attorney (NL-wallet only) */}
-        {dialogStep === "select-wallet-eu-poa" && (
-          <div className="space-y-6">
-            <section className="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-blue-50 to-white shadow-sm">
-              <div className="flex items-center gap-4">
-                <NLWalletFlag />
-                <div className="wallet-connect-wrapper natural flex-1">
-                  <WalletConnectButton
-                    key={`eu-poa-${buttonKey}`}
-                    issuance
-                    label="NL-wallet"
-                    clientId="nlw_45b8510259d2238b60ef561d0c608367"
-                    helpBaseUrl="https://example.com/"
-                    lang="en"
-                    onSuccess={handleWalletSuccess}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-        )}
-
-        {/* Step 2a3: Select wallet for EUCC (natural person, NL-wallet only) */}
-        {dialogStep === "select-wallet-eucc-natural" && (
-          <div className="space-y-6">
-            <section className="border border-blue-100 rounded-2xl p-5 bg-gradient-to-br from-blue-50 to-white shadow-sm">
-              <div className="flex items-center gap-4">
-                <NLWalletFlag />
-                <div className="wallet-connect-wrapper natural flex-1">
-                  <WalletConnectButton
-                    key={`eucc-natural-${buttonKey}`}
-                    issuance
-                    label="NL-wallet"
-                    clientId="nlw_5713d7f3d3c6ac5f4bbc88e5b01549d0"
-                    helpBaseUrl="https://example.com/"
-                    lang="en"
-                    onSuccess={handleWalletSuccess}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-        )}
 
         {/* Step 2b: Select wallet for EBWOID (iGrant.io + Procivis) */}
         {dialogStep === "select-wallet-ebwoid" && (
@@ -634,20 +576,20 @@ const CredentialIssuanceDialog = ({
           </div>
         )}
 
-        {/* Step 2c: Select wallet for EUCC (NL-wallet + iGrant.io + Procivis) */}
+        {/* Step 2c: Select wallet for EUCC (NP Wallet + iGrant.io + Procivis) */}
         {dialogStep === "select-wallet-eucc" && (
           <div className="space-y-6">
             {issuanceStatus === "idle" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* NL-wallet option for EUCC */}
+                {/* NP Wallet option for EUCC */}
                 <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
                   <div className="flex items-center gap-4">
-                    <NLWalletFlag />
+                    <NPWalletFlag />
                     <div className="wallet-connect-wrapper business flex-1">
                       <WalletConnectButton
                         key={`eucc-${buttonKey}`}
                         issuance
-                        label="NL-wallet"
+                        label="NP Wallet"
                         clientId="nlw_a9d4896760690527ecd21759910a5fd6"
                         business
                         helpBaseUrl="https://example.com/"
@@ -675,12 +617,12 @@ const CredentialIssuanceDialog = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
                 <div className="flex items-center gap-4">
-                  <NLWalletFlag />
+                  <NPWalletFlag />
                   <div className="wallet-connect-wrapper business flex-1">
                     <WalletConnectButton
                       key={`business-${buttonKey}`}
                       issuance
-                      label="NL-wallet"
+                      label="NP Wallet"
                       clientId="nlw_a9d4896760690527ecd21759910a5fd6"
                       business
                       helpBaseUrl="https://example.com/"
@@ -702,12 +644,12 @@ const CredentialIssuanceDialog = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
                 <div className="flex items-center gap-4">
-                  <NLWalletFlag />
+                  <NPWalletFlag />
                   <div className="wallet-connect-wrapper business flex-1">
                     <WalletConnectButton
                       key={`ubo-${buttonKey}`}
                       issuance
-                      label="NL-wallet"
+                      label="NP Wallet"
                       clientId="nlw_ea46c7f31bac0a0d10f204f55c921445"
                       business
                       helpBaseUrl="https://example.com/"
