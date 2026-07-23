@@ -23,10 +23,7 @@ import { cn } from "@/lib/utils";
 
 type DialogStep =
   | "select-credential"
-  | "select-wallet-business"
-  | "select-wallet-ebwoid"
-  | "select-wallet-eucc"
-  | "select-wallet-ubo";
+  | "select-wallet-business";
 
 interface CredentialIssuanceDialogProps {
   buttonKey: number;
@@ -157,12 +154,6 @@ const CredentialIssuanceDialog = ({
     switch (dialogStep) {
       case "select-credential":
         return "Choose the credential type you want to issue to your wallet.";
-      case "select-wallet-ebwoid":
-        return "Select the wallet you want to use to receive your EBWOID credential.";
-      case "select-wallet-eucc":
-        return "Select the wallet you want to use to receive your EUCC credential.";
-      case "select-wallet-ubo":
-        return "Select the wallet you want to use to receive your UBO credential.";
       case "select-wallet-business":
         return "Select the wallet you want to use to receive your EUCC credential.";
     }
@@ -501,12 +492,18 @@ const CredentialIssuanceDialog = ({
                       the wallet operator's identification data.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-ebwoid")}
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    Receive EBWOID
-                  </Button>
+                  <div className="wallet-connect-wrapper card-cta-purple">
+                    <WalletConnectButton
+                      key={`ebwoid-${buttonKey}`}
+                      issuance
+                      label="Receive EBWOID"
+                      clientId="nlw_a2d362366271d8ab1b57feaa81df0cfd"
+                      business
+                      helpBaseUrl="https://example.com/"
+                      lang="en"
+                      onSuccess={handleWalletSuccess}
+                    />
+                  </div>
                 </section>
 
                 <section className="border border-purple-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-purple-50 to-white shadow-sm">
@@ -525,12 +522,18 @@ const CredentialIssuanceDialog = ({
                       verified company information across Europe.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-eucc")}
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    Receive EUCC
-                  </Button>
+                  <div className="wallet-connect-wrapper card-cta-purple">
+                    <WalletConnectButton
+                      key={`eucc-${buttonKey}`}
+                      issuance
+                      label="Receive EUCC"
+                      clientId="nlw_a1b9bd0cf54b4ce19692e301246f47a9"
+                      business
+                      helpBaseUrl="https://example.com/"
+                      lang="en"
+                      onSuccess={handleWalletSuccess}
+                    />
+                  </div>
                 </section>
 
                 <section className="border border-purple-100 rounded-2xl p-5 space-y-4 bg-gradient-to-br from-purple-50 to-white shadow-sm">
@@ -549,67 +552,25 @@ const CredentialIssuanceDialog = ({
                       verified beneficial ownership information.
                     </p>
                   </div>
-                  <Button
-                    onClick={() => setDialogStep("select-wallet-ubo")}
-                    className="bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    Receive UBO
-                  </Button>
-                </section>
-              </div>
-            )}
-          </div>
-        )}
-
-
-
-        {/* Step 2b: Select wallet for EBWOID (iGrant.io + Procivis) */}
-        {dialogStep === "select-wallet-ebwoid" && (
-          <div className="space-y-6">
-            {issuanceStatus === "idle" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <IGrantOption onClick={() => handleIGrantClick("ebwoid")} />
-                <ProcivisOption />
-              </div>
-            )}
-            <IGrantIssuanceFlow credentialName="EBWOID" />
-          </div>
-        )}
-
-        {/* Step 2c: Select wallet for EUCC (NP Wallet + iGrant.io + Procivis) */}
-        {dialogStep === "select-wallet-eucc" && (
-          <div className="space-y-6">
-            {issuanceStatus === "idle" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* NP Wallet option for EUCC */}
-                <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
-                  <div className="flex items-center gap-4">
-                    <NPWalletFlag />
-                    <div className="wallet-connect-wrapper business flex-1">
-                      <WalletConnectButton
-                        key={`eucc-${buttonKey}`}
-                        issuance
-                        label="NP Wallet"
-                        clientId="nlw_a9d4896760690527ecd21759910a5fd6"
-                        business
-                        helpBaseUrl="https://example.com/"
-                        lang="en"
-                        onSuccess={handleWalletSuccess}
-                      />
-                    </div>
+                  <div className="wallet-connect-wrapper card-cta-purple">
+                    <WalletConnectButton
+                      key={`ubo-${buttonKey}`}
+                      issuance
+                      label="Receive UBO"
+                      clientId="nlw_eebc3e969546f0705d754701ef6d81a3"
+                      business
+                      helpBaseUrl="https://example.com/"
+                      lang="en"
+                      onSuccess={handleWalletSuccess}
+                    />
                   </div>
                 </section>
-
-                {/* iGrant.io option - enabled */}
-                <IGrantOption onClick={() => handleIGrantClick("eucc")} />
-
-                {/* Procivis - coming soon */}
-                <ProcivisOption />
               </div>
             )}
-            <IGrantIssuanceFlow credentialName="EUCC" />
           </div>
         )}
+
+
 
         {/* Step 2d: Select wallet for Business (legacy — kept for backwards compat) */}
         {dialogStep === "select-wallet-business" && (
@@ -638,32 +599,6 @@ const CredentialIssuanceDialog = ({
           </div>
         )}
 
-        {/* Step 2e: Select wallet for UBO */}
-        {dialogStep === "select-wallet-ubo" && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <section className="border border-purple-100 rounded-2xl p-5 bg-gradient-to-br from-purple-50 to-white shadow-sm">
-                <div className="flex items-center gap-4">
-                  <NPWalletFlag />
-                  <div className="wallet-connect-wrapper business flex-1">
-                    <WalletConnectButton
-                      key={`ubo-${buttonKey}`}
-                      issuance
-                      label="NP Wallet"
-                      clientId="nlw_ea46c7f31bac0a0d10f204f55c921445"
-                      business
-                      helpBaseUrl="https://example.com/"
-                      lang="en"
-                      onSuccess={handleWalletSuccess}
-                    />
-                  </div>
-                </div>
-              </section>
-              <IGrantOption disabled />
-              <ProcivisOption />
-            </div>
-          </div>
-        )}
       </DialogContent>
     </Dialog>
   );
